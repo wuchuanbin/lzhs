@@ -1,26 +1,22 @@
 <?php
 header('content-type:text/html;charset=utf-8');
-// ¶¨ÒåThinkPHP¿ò¼ÜÂ·¾¶
+// å®šä¹‰ThinkPHPæ¡†æž¶è·¯å¾„
 
 define('THINK_PATH', './ThinkPHP/');
 
-//¶¨ÒåÏîÄ¿Ãû³ÆºÍÂ·¾¶
+//å®šä¹‰é¡¹ç›®åç§°å’Œè·¯å¾„
 
-define('APP_NAME', '../lzhs');
-define('APP_DEBUG', true);
+define('APP_NAME', 'lzhs');
+define('APP_DEBUG', false);
 
 define('APP_PATH', './app/');
 
-// ¼ÓÔØ¿ò¼ÜÈë¿ÚÎÄ¼þ 
+// åŠ è½½æ¡†æž¶å…¥å£æ–‡ä»¶ 
 
 require(THINK_PATH."/ThinkPHP.php");
 Vendor("session");
-//ÊµÀý»¯Ò»¸öÍøÕ¾Ó¦ÓÃÊµÀý
+//å®žä¾‹åŒ–ä¸€ä¸ªç½‘ç«™åº”ç”¨å®žä¾‹
 
 //App::run();
 
 ?>
-
-
-
-
