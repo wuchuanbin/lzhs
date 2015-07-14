@@ -1,0 +1,61 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+	tr, td{
+		height:30px;
+		line-height:30px;
+		padding-left:8px;
+	}
+	.btns-box{
+		text-align:right;
+	}
+</style>
+<div class="span9">
+    <h1 class="page-title">编辑{$title}</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('cate/index'); ?>&flag={$flag}" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+    <div class="well">
+		<form action="<?php echo U('cate/edit'); ?>&flag={$flag}" method="post" id="form">
+		<input type="hidden" value="{$info.cate_id}" name="cid">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>{$title}：</td>
+                <td><input type="text" name="cate_name" value="{$info.cate_name}" placeholder="请输入{$title}" /></td>
+            </tr>
+            <tr>
+                <td>权重：</td>
+                <td><input type='text' name="sort_order" value="{$info.sort_order}" /></td>
+            </tr>
+			<tr class="btns-box">
+				<td colspan='2'>
+					<input type="submit" value="更新" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" value="返回" onclick="history.go(-1);" />
+				</td>
+			</tr>
+            </thead>
+        </table>
+		</form>
+    </div>
+
+</div>
+
+<script>
+	$('#sub').click(function() {
+		
+		if(!$('[name = cate_name]').val()) {
+			alert('请输入内容');
+			return false;
+		}
+
+		$('#form').submit();
+		
+	});
+</script>
+
+<include file="Common:Manager_footer" />

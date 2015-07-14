@@ -44,14 +44,14 @@
                 </ul>
                 <div class="nav-header" data-toggle="collapse" data-target="#accounts-menu"><i class="icon-briefcase"></i>班级管理<!--<span class="label label-info">+10</span>--></div>
                 <ul id="accounts-menu" class="nav nav-list collapse in">
-                    <li ><a href="/index.php?m=Manager&a=ClassList">班级列表</a></li>
+                    <li ><a href="<?php echo U('cate/index?flag=class'); ?>">班级列表</a></li>
                     <li ><a href="<?php echo U('message/index'); ?>">班级通知</a></li>
                     <li ><a href="/index.php?m=Manager&a=PhotoList">班级相册</a></li>
                 </ul>
 
                 <div class="nav-header" data-toggle="collapse" data-target="#settings-menu"><i class="icon-exclamation-sign"></i>文章管理</div>
                 <ul id="settings-menu" class="nav nav-list collapse in">
-                    <li ><a href="<?php echo U('cate/index'); ?>">文章分类</a></li>
+                    <li ><a href="<?php echo U('cate/index?flag=article'); ?>">文章分类</a></li>
                     <li ><a href="<?php echo U('article/index'); ?>">文章列表</a></li>
                     <!--<li ><a href="500.html">500 page</a></li>
                     <li ><a href="503.html">503 page</a></li>-->

@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="well">
-		<form action="<?php echo U('message/edit'); ?>" method="post" id="form">
+		<form action="<?php echo U('message/edit'); ?>" method="post" id="formm">
 		<input type="hidden" value="{$info.msg_id}" name="mid">
         <table style="margin-left: 26px;">
             <thead>
@@ -95,7 +95,7 @@
 			return false;
 		}
 
-		$('#form').submit();
+		$('#formm').submit();
 		
 	});
 </script>

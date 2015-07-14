@@ -1,0 +1,84 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+	tr, td{
+		height:30px;
+		line-height:30px;
+		padding-left:8px;
+	}
+	.btns-box{
+		text-align:right;
+	}
+</style>
+<div class="span9">
+    <h1 class="page-title">新增{$title}</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('cate/index'); ?>&flag={$flag}" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+    <div class="well">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>{$title}：</td>
+                <td><input type="text" name="cate_name" value="" placeholder="请输入{$title}" /></td>
+            </tr>
+            <tr>
+                <td>权重：</td>
+                <td><input type='text' name="sort_order" value="1" /></td>
+            </tr>
+			<tr class="btns-box">
+				<td colspan='2'>
+					<input type="submit" value="提交" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="重置" name="reset" />
+				</td>
+			</tr>
+            </thead>
+        </table>
+		<input type="hidden" value="<?php echo U('cate/add'); ?>&flag={$flag}" id="suburl">
+    </div>
+
+</div>
+
+<script>
+	$('#sub').click(function() {
+		
+		if(!$('[name = cate_name]').val()) {
+			alert('请输入内容');
+			return false;
+		}
+		
+		var url = $('#suburl').val();
+
+		if(!url) {
+			alert('请求失败，请重试');
+			return false;
+		}
+
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{
+				'cate_name':$('[name = cate_name]').val(),
+				'sort_order':$('[name = sort_order]').val(),
+			},
+			success:function(msg) {
+				
+				alert(msg.info);
+
+				if(msg.status == 1) {
+					
+					window.location.href = msg.data;
+				}
+				return false;
+			}
+
+		});
+	});
+</script>
+
+<include file="Common:Manager_footer" />
