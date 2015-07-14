@@ -17,73 +17,37 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>UID</th>
+                <th>邮箱</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>注册时间</th>
+                <th>状态</th>
+                <th>管理员状态</th>
+                <th>第一班级id</th>
+                <th>第二班级id</th>
                 <th style="width: 26px;"></th>
             </tr>
             </thead>
             <tbody>
+            <volist name='list' id='data' key='i'>
             <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Tompson</td>
-                <td>the_mark7</td>
+                <td>{$i}</td>
+                <td>{$data.uid}</td>
+                <td>{$data.email}</td>
+                <td>{$data.user_name}</td>
+                <td>{$data.password}</td>
+                <td>{$data.reg_time|date='Y-m-d H:i:s',###}</td>
+                <td>{$data.status}</td>
+                <td>{$data.is_admin}</td>
+                <td>{$data.class_id1}</td>
+                <td>{$data.class_id2}</td>
                 <td>
-                    <a href="user.html"><i class="icon-pencil"></i></a>
+                    <a href="/index.php?m=Manager&a=userExec&uid={$data.uid}"><i class="icon-pencil"></i></a>
                     <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
                 </td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Ashley</td>
-                <td>Jacobs</td>
-                <td>ash11927</td>
-                <td>
-                    <a href="user.html"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Audrey</td>
-                <td>Ann</td>
-                <td>audann84</td>
-                <td>
-                    <a href="user.html"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>John</td>
-                <td>Robinson</td>
-                <td>jr5527</td>
-                <td>
-                    <a href="user.html"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Aaron</td>
-                <td>Butler</td>
-                <td>aaron_butler</td>
-                <td>
-                    <a href="user.html"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>Chris</td>
-                <td>Albert</td>
-                <td>cab79</td>
-                <td>
-                    <a href="user.html"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
-                </td>
-            </tr>
+            </volist>
             </tbody>
         </table>
     </div>
