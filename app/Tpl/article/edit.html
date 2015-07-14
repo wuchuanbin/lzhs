@@ -1,0 +1,113 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+	tr, td{
+		height:30px;
+		line-height:30px;
+		padding-left:8px;
+	}
+	.btns-box{
+		text-align:right;
+	}
+</style>
+<div class="span9">
+    <h1 class="page-title">编辑文章</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('article/index'); ?>" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+    <div class="well">
+		<form action="<?php echo U('article/edit'); ?>" method="post" id="form">
+		<input type="hidden" value="{$info.article_id}" name="aid">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>标题：</td>
+                <td><input type="text" name="title" value="{$info.title}" placeholder="请输入文章标题" /></td>
+            </tr>
+            <tr>
+                <td>分类：</td>
+                <td><select name="cate_id">
+						<option value="">--请选择--</option>
+						<volist name='cate_list' id='cate'>
+							<eq name="cate.cate_id" value="$info.cate_id">
+								<option value="{$cate.cate_id}" selected>{$cate.cate_name}</option>
+							<else />
+								<option value="{$cate.cate_id}">{$cate.cate_name}</option>
+							</eq>
+						</volist>
+					</select>
+				</td>
+            </tr>
+            <tr>
+                <td>权重：</td>
+                <td><input type='text' name="sort_order" value="{$info.sort_order}" placeholder="请输入权重（权重越大，排序越前）" /></td>
+            </tr>
+            <tr>
+                <td>状态：</td>
+                <td>
+					<eq name="info.if_show" value="1">
+						<input type='radio' name="if_show" value="1" checked />上线
+						<input type='radio' name="if_show" value="2" />下线
+					<else/>
+						<input type='radio' name="if_show" value="1" />上线
+						<input type='radio' name="if_show" value="2" checked />下线
+
+					</eq>
+				</td>
+            </tr>
+            <tr>
+                <td>内容：</td>
+                <td>
+					<script type="text/javascript" src="__PUBLIC__/lib/ckeditor/ckeditor.js"></script>
+					<textarea id="editor1" name="content" cols='40'>{$info.content}</textarea>
+					<script type="text/javascript">
+						CKEDITOR.replace( 'editor1' );
+					</script>
+					<style>
+						#cke_editor1 {
+							width:800px;
+						}
+					</style>
+				</td>
+            </tr>
+			<tr class="btns-box">
+				<td colspan='2'>
+					<input type="submit" value="更新" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" value="返回" onclick="history.go(-1);" />
+				</td>
+			</tr>
+            </thead>
+        </table>
+		</form>
+    </div>
+
+</div>
+
+<script>
+	$('#sub').click(function() {
+		
+		if(!$('[name = title]').val()) {
+			alert('请输入文章标题');
+			return false;
+		}
+
+		if(!$('[name ^= cate_id]').val()) {
+			alert('请选择文章分类');
+			return false;
+		}
+
+		if(!$('.cke_wysiwyg_frame.cke_reset').contents().find('body').html() || $('.cke_wysiwyg_frame.cke_reset').contents().find('body').html() == '<p><br></p>') {
+			alert('请编辑公告内容');
+			return false;
+		}
+
+		$('#form').submit();
+		
+	});
+</script>
+
+<include file="Common:Manager_footer" />

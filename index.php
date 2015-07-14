@@ -7,7 +7,7 @@ define('THINK_PATH', './ThinkPHP/');
 //定义项目名称和路径
 
 define('APP_NAME', 'lzhs');
-define('APP_DEBUG', false);
+define('APP_DEBUG', true);
 
 define('APP_PATH', './app/');
 

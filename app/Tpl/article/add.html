@@ -1,0 +1,130 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+	tr, td{
+		height:30px;
+		line-height:30px;
+		padding-left:8px;
+	}
+	.btns-box{
+		text-align:right;
+	}
+</style>
+<div class="span9">
+    <h1 class="page-title">新增文章</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('article/index'); ?>" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+    <div class="well">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>标题：</td>
+                <td><input type="text" name="title" value="" placeholder="请输入文章标题" /></td>
+            </tr>
+            <tr>
+                <td>分类：</td>
+                <td><select name="cate_id">
+						<option value="">--请选择--</option>
+						<volist name='cate_list' id='cate'>
+							<option value="{$cate.cate_id}">{$cate.cate_name}</option>
+						</volist>
+					</select>
+				</td>
+            </tr>
+            <tr>
+                <td>权重：</td>
+                <td><input type='text' name="sort_order" value="" placeholder="请输入权重（权重越大，排序越前）" /></td>
+            </tr>
+            <tr>
+                <td>状态：</td>
+                <td>
+					<input type='radio' name="if_show" value="1" checked />上线
+					<input type='radio' name="if_show" value="2" />下线
+				</td>
+            </tr>
+            <tr>
+                <td>内容：</td>
+                <td>
+					<script type="text/javascript" src="__PUBLIC__/lib/ckeditor/ckeditor.js"></script>
+					<textarea id="editor1" name="content" cols='40'></textarea>
+					<script type="text/javascript">
+						CKEDITOR.replace( 'editor1' );
+					</script>
+					<style>
+						#cke_editor1 {
+							width:800px;
+						}
+					</style>
+				</td>
+            </tr>
+			<tr class="btns-box">
+				<td colspan='2'>
+					<input type="submit" value="提交" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="重置" name="reset" />
+				</td>
+			</tr>
+            </thead>
+        </table>
+		<input type="hidden" value="<?php echo U('article/add'); ?>" id="suburl">
+		<input type="hidden" value="<?php echo U('article/upload'); ?>" id="uploadurl">
+    </div>
+
+</div>
+
+<script>
+	$('#sub').click(function() {
+		
+		if(!$('[name = title]').val()) {
+			alert('请输入文章标题');
+			return false;
+		}
+
+		if(!$('[name ^= cate_id]').val()) {
+			alert('请选择文章分类');
+			return false;
+		}
+
+		if(!$('.cke_wysiwyg_frame.cke_reset').contents().find('body').html() || $('.cke_wysiwyg_frame.cke_reset').contents().find('body').html() == '<p><br></p>') {
+			alert('请编辑公告内容');
+			return false;
+		}
+		
+		var url = $('#suburl').val();
+
+		if(!url) {
+			alert('请求失败，请重试');
+			return false;
+		}
+
+		$.ajax({
+			url:url,
+			type:'post',
+			dataType:'json',
+			data:{
+				'title':$('[name = title]').val(),
+				'cate_id':$('[name = cate_id]').val(),
+				'sort_order':$('[name = sort_order]').val(),
+				'if_show':$('[name = if_show]').val(),
+				'content':$('.cke_wysiwyg_frame.cke_reset').contents().find('body').html(),
+			},
+			success:function(msg) {
+				
+				alert(msg.info);
+
+				if(msg.status == 1) {
+					
+					window.location.href = msg.data;
+				}
+				return false;
+			}
+
+		});
+	});
+</script>
+
+<include file="Common:Manager_footer" />

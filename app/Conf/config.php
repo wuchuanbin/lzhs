@@ -27,9 +27,15 @@ return array(
 	'TOKEN_NAME' => '__hash__',
 	'TOKEN_TYPE' => 'md5',
 	
-	'TMPL_ACTION_ERROR'	   => '',	//错误跳转对应的模板文件
-	'TMPL_ACTION_SUCCESS'  => '',	//成功跳转对应的模板文件
-	'TMPL_EXCEPTION_FILE'  => '/404.html',
+	'TMPL_ACTION_ERROR'	   => 'Common:error',	//错误跳转对应的模板文件
+	'TMPL_ACTION_SUCCESS'  => 'Common:success',	//成功跳转对应的模板文件
+	//'TMPL_EXCEPTION_FILE'  => '/404.html',
+
+	/* 错误设置 */
+	'ERROR_MESSAGE'        => '页面错误！请稍后再试～',//错误显示信息,非调试模式有效
+	'ERROR_PAGE'           => '',	// 错误定向页面
+	'SHOW_ERROR_MSG'       => true,    // 显示错误信息
+	'TRACE_EXCEPTION'      => true,   // TRACE错误信息是否抛异常 针对trace方法 
 
 	/* URL设置 */
 	'URL_CASE_INSENSITIVE' => true,   // 默认false 表示URL区分大小写 true则表示不区分大小写

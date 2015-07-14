@@ -1,0 +1,103 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+	tr, td{
+		height:30px;
+		line-height:30px;
+		padding-left:8px;
+	}
+	.btns-box{
+		text-align:right;
+	}
+</style>
+<div class="span9">
+    <h1 class="page-title">编辑通知</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('message/index'); ?>" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+    <div class="well">
+		<form action="<?php echo U('message/edit'); ?>" method="post" id="form">
+		<input type="hidden" value="{$info.msg_id}" name="mid">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>标题：</td>
+                <td><input type="text" name="title" value="{$info.title}" placeholder="请输入通知标题" /></td>
+            </tr>
+            <tr>
+                <td>班级：</td>
+                <td><select name="cate_id">
+						<option value="">--请选择--</option>
+						<volist name='cate_list' id='cate'>
+							<eq name="cate.cate_id" value="$info.cate_id">
+								<option value="{$cate.cate_id}" selected>{$cate.cate_name}</option>
+							<else />
+								<option value="{$cate.cate_id}">{$cate.cate_name}</option>
+							</eq>
+						</volist>
+					</select>
+				</td>
+            </tr>
+            <tr>
+                <td>权重：</td>
+                <td><input type='text' name="sort_order" value="{$info.sort_order}" placeholder="请输入权重（权重越大，排序越前）" /></td>
+            </tr>
+            <tr>
+                <td>状态：</td>
+                <td>
+					<eq name="info.if_show" value="1">
+						<input type='radio' name="if_show" value="1" checked />通过
+						<input type='radio' name="if_show" value="2" />删除
+					<else/>
+						<input type='radio' name="if_show" value="1" />通过
+						<input type='radio' name="if_show" value="2" checked />删除
+					</eq>
+				</td>
+            </tr>
+            <tr>
+                <td>内容：</td>
+                <td>
+					<textarea id="content" name="content" cols='40' rows="10">{$info.content}</textarea>
+				</td>
+            </tr>
+			<tr class="btns-box">
+				<td colspan='2'>
+					<input type="submit" value="更新" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="button" value="返回" onclick="history.go(-1);" />
+				</td>
+			</tr>
+            </thead>
+        </table>
+		</form>
+    </div>
+
+</div>
+
+<script>
+	$('#sub').click(function() {
+		
+		if(!$('[name = title]').val()) {
+			alert('请输入通知标题');
+			return false;
+		}
+
+		if(!$('[name ^= cate_id]').val()) {
+			alert('请选择通知班级');
+			return false;
+		}
+
+		if(!$('[name ^= content]').val()) {
+			alert('请编辑通知内容');
+			return false;
+		}
+
+		$('#form').submit();
+		
+	});
+</script>
+
+<include file="Common:Manager_footer" />

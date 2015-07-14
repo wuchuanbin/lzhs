@@ -14,23 +14,33 @@
 
 	/**
 	 *	消息列表
-	 *	order 排序方式 add_time时间 / sort_order权重 / cate_id类别 默认 add_time  
+	 *	order 排序方式 add_time时间 / sort_order权重 / cate_id班级类别 默认 add_time  
 	 */
 	public function index() {
 
 		$order = empty($_REQUEST['order']) ? 'add_time' : htmlspecialchars($_REQUEST['order']);
 
-		$message = M('class_msg');
+		$class_msg = M('class_msg');
 
 		import('ORG.Util.Page');
 
-		$count = $message->count();
+		$count = $class_msg->count();
 
 		$page = new Page($count, 2, 'order=' . $order);
 
 		$show = $page->show();
 
-		$list = $message->order($order)->limit($page->firstRow . ',' . $page->listRows)->select();
+		$list = $class_msg->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+		
+		$user = M('users');
+		$cate = M('class_msg_cate');
+
+		foreach($list as $key => $val) {
+			$username = $user->field('user_name')->where('uid=' . $val['uid_id'])->find();
+			$catename     = $cate->field('cate_name')->where('cate_id=' . $val['cate_id'])->find();
+			$list[$key]['username'] = $username['user_name'];
+			$list[$key]['cate']     = $catename['cate_name'];
+		}
 
 		$this->assign('list', $list);
 		$this->assign('page', $show);
@@ -44,33 +54,32 @@
 		
 		if($_POST) {
 			
-			$message = D('class_msg');
-
-			if(!$message->create()) {
-				$this->ajaxReturn('', $message->getError(), -1);
-			}
+			$class_msg = M('class_msg');
 
 			$data = $_POST;
-
-			load('extend');
 
 			$data['title']      = I('post.title');
 			$data['cate_id']    = I('post.cate_id', '', 'intval');
 			$data['content']    = I('post.content', '', 'htmlspecialchars');
-			$data['sort_order'] = I('post.sort_order', '', 'intval');
-			$data['uid_id']     = I('session.uid_id', '', NULL);
-			$data['if_show']    = I('post.if_show', '', 'intval');	// 1 上线 2 下线
+			$data['sort_order'] = I('post.sort_order', 1);	//权重默认为 1
+			$data['uid_id']     = I('session.uid_id', 3);	//暂时默认用户test 对应id 3 
+			$data['if_show']    = I('post.if_show', 1);	// 1 通过 2 删除
 			$data['add_time']   = time();
 			$data['ip']         = get_client_ip();
 
-			$ret = $message->data($data)->add();
+			$ret = $class_msg->data($data)->add();
 	
 			if($ret) {
-				$this->ajaxReturn(U('message/index'), '添加成功', 1);
+				$this->ajaxReturn(U('message/index'), '新增成功', 1);
 			} else {
-				$this->ajaxReturn('', '添加失败', -1);
+				$this->ajaxReturn('', '新增失败', -1);
 			}
 		} else {
+			$cate = M('class_msg_cate');
+
+			$list = $cate->select();
+
+			$this->assign('cate_list', $list);
 			$this->display();
 		}
 	}
@@ -80,42 +89,56 @@
 	 */
 	public function edit() {
 		
-		$mid = isset($_GET['mid']) ? intval($_GET['mid']) : NULL;
+		$mid = isset($_REQUEST['mid']) ? intval($_REQUEST['mid']) : NULL;
 
 		if(!$mid) {
-			$this->error('编辑失败，消息ID有误');
+			$this->assign('title', '编辑失败');
+			$this->assign('message', '消息ID有误');
+			$this->error();
 		}
 
-		$message = D('class_msg');
+		$class_msg = M('class_msg');
 
 		$condition = array();
-		$condition['id'] = array('eq', $mid);
+		$condition['msg_id'] = array('eq', $mid);
 
-		$info = $message->where($condition)->find();
+		$info = $class_msg->where($condition)->find();
 
 		if(!$info) {
-			$this->error('编辑失败，消息ID有误');
+			$this->assign('title', '编辑失败');
+			$this->assign('message', '消息ID有误');
+			$this->error();
 		}
+
+		$cate = M('class_msg_cate');
+
+		$list = $cate->select();
+
+		$this->assign('cate_list', $list);
 
 		if($_POST) {
 
-			if(!$message->create()) {
-				$this->ajaxReturn('', $message->getError(), -1);
-			}
+//			if(!$class_msg->create()) {
+//				$this->assign('title', '编辑失败');
+//				$this->assign('message', $class_msg->getError());
+//				$this->error();
+//			}
 
 			$data['title']      = I('post.title');
 			$data['cate_id']    = I('post.cate_id', '', 'intval');
 			$data['content']    = I('post.content', '', 'htmlspecialchars');
-			$data['sort_order'] = I('post.sort_order', '', 'intval');
-			$data['uid_id']     = I('session.uid_id', '', NULL);
-			$data['if_show']    = I('post.if_show', '', 'intval');	// 1 上线 2 下线
+			$data['sort_order'] = I('post.sort_order');	//权重默认为 1
+			$data['if_show']    = I('post.if_show');	// 1 上线 2 下线
 
-			$ret = $message->where($condition)->save($data);
+			$ret = $class_msg->where($condition)->save($data);
 	
 			if($ret) {
-				$this->success('编辑成功', U('message/index'));
+				$this->assign('title', '编辑成功');
+				$this->success();
 			} else {
-				$this->error('编辑失败');
+				$this->assign('title', '编辑失败');
+				$this->assign('message', '请求失败，请重试');
+				$this->error();
 			}
 		}
 
@@ -125,7 +148,7 @@
 	}
 
 	/**
-	 *	操作 if_show = 1 上线 / if_show = 2 下线 
+	 *	操作 if_show = 1 通过 / if_show = 2 删除 
 	 */
 	public function operation() {
 		
@@ -133,35 +156,44 @@
 		$if_show = isset($_GET['if_show']) ? intval($_GET['if_show']) : NULL;
 
 		if(!$mid) {
-			$this->ajaxReturn('', '操作失败，消息ID有误', -1);
+			$this->assign('title', '操作失败');
+			$this->assign('message', '消息ID有误');
+			$this->error();
 		}
 
 		if(!$if_show) {
-			$this->ajaxReturn('', '操作失败', -1);
+			$this->assign('title', '操作失败');
+			$this->assign('message', '请求失败，请重试');
+			$this->error();
 		}
 
-		$message = M('message');
+		$class_msg = M('class_msg');
 
 		$condition = array();
-		$condition['id'] = array('eq', $mid);
+		$condition['msg_id'] = array('eq', $mid);
 
-		$info = $message->where($condition)->find();
+		$info = $class_msg->where($condition)->find();
 
 		if(!$info) {
-			$this->ajaxReturn('', '操作失败，消息ID有误', -1);
+			$this->assign('title', '操作失败');
+			$this->assign('message', '消息ID有误');
+			$this->error();
 		}
 
-		$data['id_show'] = $if_show;
+		$data['if_show'] = $if_show;
 
-		$ret = $message->where($condition)->save($data);
+		$ret = $class_msg->where($condition)->save($data);
 	
 		if($ret) {
-			$this->ajaxReturn('', '操作成功', 1);
+			$this->assign('title', '操作成功');
+			$this->success();
 		} else {
-			$this->ajaxReturn('', '操作失败', -1);
+			$this->assign('title', '操作失败');
+			$this->assign('message', '请求失败，请重试');
+			$this->error();
 		}
 
-	}
+	}  
 
 }
 ?>
