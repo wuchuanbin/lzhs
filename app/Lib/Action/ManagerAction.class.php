@@ -14,19 +14,30 @@ class ManagerAction extends Action {
 
     function UserList(){
         $order = empty($_REQUEST['order']) ? 'reg_time' : htmlspecialchars($_REQUEST['order']);
+        $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
+        $where = array();
+        if(!empty($type)){
+            if($type=='teacher'){
+                $where['is_admin'] = 2;
+            } elseif($type=='admin'){
+                $where['is_admin'] = 1;
+            } else {
+                $where['is_admin'] = 0;
+            }
+        }
 
         $obj = M('users');
 
         import('ORG.Util.Page');
 
-        $count = $obj->count();
+        $count = $obj->where($where)->count();
 //        echo $count;
 //        echo 888;
         $page = new Page($count, 2, 'order=' . $order);
 //echo 555;
         $show = $page->show();
 //echo 123;
-        $list = $obj->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+        $list = $obj->where($where)->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
 //        echo $obj->getLastSql();
 //print_r($list);
         $user = M('users');
@@ -45,6 +56,15 @@ class ManagerAction extends Action {
     function userExec(){
         $obj = M('users');
         $uid = $_GET['uid'];//if not exec addaction   else   editaction
+
+
+        //class list
+        $cate = M('class_msg_cate');
+
+        $list = $cate->select();
+
+        $this->assign('cate_list', $list);
+
         if($_POST) {
             //info
             $data['email'] = $_POST['email'];

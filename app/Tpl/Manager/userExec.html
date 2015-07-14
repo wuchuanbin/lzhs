@@ -38,19 +38,19 @@
 
             <tr>
                 <td>邮箱：</td>
-                <td><input type="text" name="title" value="{$info.email}" placeholder="请输入邮箱" /></td>
+                <td><input type="text" name="email" value="{$info.email}" placeholder="请输入邮箱" /></td>
             </tr>
             <tr>
                 <td>用户名：</td>
-                <td><input type="text" name="title" value="{$info.user_name}" placeholder="请输入用户名" /></td>
+                <td><input type="text" name="user_name" value="{$info.user_name}" placeholder="请输入用户名" /></td>
             </tr>
             <tr>
                 <td>密码：</td>
-                <td><input type="text" name="title" value="{$info.password}" placeholder="请输入密码" /></td>
+                <td><input type="text" name="password" value="{$info.password}" placeholder="请输入密码" /></td>
             </tr>
             <tr>
                 <td>注册时间：</td>
-                <td><input type="text" name="title" value="{$info.reg_time}" placeholder="注册时间" /></td>
+                <td><input type="text" name="reg_time" value="{$info.reg_time}" placeholder="注册时间" /></td>
             </tr>
 
             <tr>
@@ -93,7 +93,7 @@
             </tr>
             </thead>
         </table>
-        <input type="hidden" value="<?php echo U('message/add'); ?>" id="suburl">
+        <input type="hidden" value="/index.php?m=Manager&a=userExec&uid={$info.uid}" id="suburl">
     </div>
 
 </div>
@@ -101,20 +101,20 @@
 <script>
     $('#sub').click(function() {
 
-        if(!$('[name = title]').val()) {
-            alert('请输入通知标题');
-            return false;
-        }
+//        if(!$('[name = title]').val()) {
+//            alert('请输入通知标题');
+//            return false;
+//        }
 
-        if(!$('[name ^= cate_id]').val()) {
-            alert('请选择通知班级');
-            return false;
-        }
+//        if(!$('[name ^= cate_id]').val()) {
+//            alert('请选择通知班级');
+//            return false;
+//        }
 
-        if(!$('[name ^= content]').val()) {
-            alert('请编辑通知内容');
-            return false;
-        }
+//        if(!$('[name ^= content]').val()) {
+//            alert('请编辑通知内容');
+//            return false;
+//        }
 
         var url = $('#suburl').val();
 
@@ -123,16 +123,23 @@
             return false;
         }
 
+
+
+
+
         $.ajax({
             url:url,
             type:'post',
             dataType:'json',
             data:{
-                'title':$('[name = title]').val(),
-                'cate_id':$('[name = cate_id]').val(),
-                'sort_order':$('[name = sort_order]').val(),
-                'if_show':$('[name = if_show]').val(),
-                'content':$('[name ^= content]').val(),
+                'email':$('[name = email]').val(),
+                'user_name':$('[name = user_name]').val(),
+                'password':$('[name = password]').val(),
+                'reg_time':$('[name = reg_time]').val(),
+                'status':$('[name ^= status]').val(),
+                'is_admin':$('[name ^= is_admin]').val(),
+                'class_id1':$('[name ^= class_id1]').val(),
+                'class_id2':$('[name ^= class_id2]').val(),
             },
             success:function(msg) {
 
