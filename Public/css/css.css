@@ -1,0 +1,89 @@
+/* css reset */
+html,body,ul,p,h1,h2,h3,form,input{margin: 0; padding: 0;}
+body,html{width: 100%; height: 100%; font-family: "微软雅黑";}
+div{position: relative; font-size: 0;}
+a,a:hover{display: inline-block; *display: inline; zoom: 1; text-decoration: none;}
+li{list-style: none;}
+img{border: none; vertical-align: top;}
+/* css reset end */
+/* momo's default */
+.btn-box .btn, .inline{display: inline-block; *display: inline; zoom: 1;}
+.btn-box{font-size: 0; position: absolute;
+-webkit-transition: all .1s ease;
+   -moz-transition: all .1s ease;
+    -ms-transition: all .1s ease;
+     -o-transition: all .1s ease;
+        transition: all .1s ease;
+}
+.btn{text-align: center;}
+/* for popup */
+.popup-box{display: none; z-index: 99;}
+.bg{display:none;position:fixed;width:100%;height:100%;background:#000;opacity:0.6;filter:Alpha(opacity=60);top:0;left:0;z-index:98;}
+/* for color */
+body{background: #f8f0e3;}
+h1,h2,h3,h4,p,a,input{color: #585043;}
+.pointer{cursor: pointer;}
+.button{width: 60px; height: 30px; line-height: 30px; position: absolute; text-align: center; background: #ede5d8;}
+.hover:hover, .btn:hover{background: #dbd3c6;}
+/* momo's default end */
+h1{font-size: 28px; text-align: center;}
+h2{font-size: 20px;}
+h3{font-size: 18px;}
+p,a{font-size: 16px;}
+.login-box{float: right; width: 500px; height: 30px; margin: 10px;}
+.islogin{display: none;}
+.notlogin input{width: 200px; height: 30px; padding: 0 5px; border: none; margin-right: 10px;}
+.islogin{text-align: right;}
+.goblackboard{text-decoration: underline;}
+.sec-box{border-bottom: solid 1px #585043;}
+.sec-box a{line-height: 24px; display: block;}
+
+.logo-box{height: 320px; background: rgba(0,0,0,0.5);}
+
+.nav-box ul{font-size: 0;}
+.nav-box ul li{width: 25%; display: inline-block; *display: inline; zoom: 1;}
+.nav-box ul li a{display: block; float: left; width: 100%; height: 45px; line-height: 45px; font-size: 22px; text-align: center;}
+
+.sidebar-box{background: #ede5d8;}
+.sidebar-box .sec-box h3{font-size: 18px; padding: 10px;}
+.sidebar-box .sec-box p,
+.sidebar-box .sec-box a{padding-left: 10px;}
+
+.cont-box .img-box{height: 300px; background: rgba(0,0,0,0.5);}
+.cont-box .sec-box h2{padding: 15px 0;}
+.cont-box .sec-box .img-box{display: inline-block; *display: inline; zoom: 1; width: 150px; height: 100px; margin: 0 5px 5px 0;}
+.cont-box .sec-box .img-box.last{margin-right: 0;}
+
+/* content page */
+.content h1{margin: 10px 0;}
+
+/* bb page */
+.secbb-box{padding: 5px 0px; background: #ede5d8; margin-bottom: 10px;}
+.entry-box p{height: 30px; line-height: 30px; padding: 0 20px; font-size: 20px;}
+
+.secbb-box .title{margin-left: 20px;}
+.secbb-box .btn-box{position: relative; float: right;}
+.secbb-box .btn{width: 90px; height: 30px; line-height: 30px;}
+
+.photo .entry-box{width: 150px; height: 100px; margin-right: 33px; margin-bottom: 20px;}
+.photo .entry-box.last{margin-right: 0;}
+
+.upload select,
+.upload input{width: 200px; height: 30px; margin: 0 20px 10px 30px;}
+.upload input{width: 300px; height: 26px;}
+.upload .btns-box{height: 40px; margin-top: 20px;}
+.upload .btn-select-box{float: left;}
+.upload .btn-select:hover{background: none;}
+.upload .btn-select-box input{width: 300px; font-size: 18px;}
+.upload .class{display: none; width: 200px; height: 30px; line-height: 30px; position: absolute; top: 0px; left: 280px;}
+.upload .state,
+.upload .abs{margin: 5px 0px 10px 30px;}
+
+.upload .newsname{width: 635px;}
+.upload textarea{width: 632px; margin: 0 30px;}
+
+.pic .des{text-align: center;}
+.pic .des p{font-size: 16px;}
+.pic select,
+.pic input{width: 200px; height: 30px; margin: 0 20px 10px 30px;}
+.pic .entry-box{height: 140px; margin-bottom: 0;}
