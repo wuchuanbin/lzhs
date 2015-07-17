@@ -1,0 +1,54 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+    tr, td{
+        height:30px;
+        line-height:30px;
+        padding-left:8px;
+    }
+    .btns-box{
+        text-align:right;
+    }
+</style>
+<div class="span9">
+    <h1 class="page-title">导入用户</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('Manager/UserList'); ?>" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+
+
+    <div class="well">
+        <table style="margin-left: 26px;">
+            <thead>
+            <form action="" enctype="multipart/form-data" method="POST" >
+            <tr>
+                <td>选择要导入的用户文件 请务必使用规定的格式  <br/><a href="/index.php?m=Manager&a=exportStudents">格式</a><br/></td>
+                <td></td>
+            </tr>
+                <tr>
+
+                    <td colspan="2"><input type='file' name="csv" multiple="multiple"/></td>
+                </tr>
+
+
+            <tr class="btns-box">
+                <td colspan='2'>
+                    <input type="submit" value="提交" name="submit" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" value="重置" name="reset" />
+                </td>
+            </tr>
+            </form>
+            </thead>
+        </table>
+        <input type="hidden" value="/index.php?m=Manager&a=userExec&uid={$info.uid}" id="suburl">
+    </div>
+
+</div>
+
+
+
+<include file="Common:Manager_footer" />

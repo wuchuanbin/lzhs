@@ -33,7 +33,7 @@ class ManagerAction extends Action {
         $count = $obj->where($where)->count();
 //        echo $count;
 //        echo 888;
-        $page = new Page($count, 2, 'order=' . $order);
+        $page = new Page($count, 20, 'order=' . $order);
 //echo 555;
         $show = $page->show();
 //echo 123;
@@ -48,6 +48,34 @@ class ManagerAction extends Action {
         $this->assign('list', $list);
         $this->assign('page', $show);
         $this->display();
+    }
+
+    /**
+     * 学生信息导入
+     */
+    function importStudents(){
+        if($_FILES){
+            //
+        } else {
+            //
+            $this->display('import');
+        }
+    }
+
+    function exportStudents(){
+        // 文件标签
+        // Header("Content-type: application/octet-stream");
+        header("Content-type: application/vnd.ms-excel; charset=utf-8");
+        Header("Content-Disposition: attachment; filename=goods_number.csv");
+        //echo '商品名称，商品价格';
+        //遍历商品信息
+        $obj = M('users');
+
+        $list = $obj->select();
+        echo iconv('utf-8', 'gb2312', '用户ID,邮箱,名字,密码,老师－2,第一所属班级ID,第二班级ID,'."\n");
+        foreach($list as $v1){
+            echo iconv('utf-8', 'gb2312', $v1['uid'].','.$v1['email'].','.$v1['user_name'].','.$v1['password'].','.$v1['is_admin'].','.$v1['class_id1'].','.$v1['class_id2']."\n");
+        }
     }
 
     /**
