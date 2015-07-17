@@ -62,7 +62,7 @@
 			$data['cate_id']    = I('post.cate_id', '', 'intval');
 			$data['content']    = I('post.content', '', 'htmlspecialchars');
 			$data['sort_order'] = I('post.sort_order', 1);	//权重默认为 1
-			$data['uid_id']     = I('session.uid_id', 3);	//暂时默认用户test 对应id 3 
+			$data['uid_id']     = I('session.uid', '', null);
 			$data['if_show']    = I('post.if_show', 1);	// 1 通过 2 删除
 			$data['add_time']   = time();
 			$data['ip']         = get_client_ip();

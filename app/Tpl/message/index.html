@@ -39,10 +39,10 @@
                 <td>
 					<eq name="data.if_show" value="1">
 						通过&nbsp;
-						<a href="<?php echo U('message/operation');?>&if_show=2&mid={$data.msg_id}"><i class="icon-ok"></i></a>
+						<a href="<?php echo U('message/operation');?>&if_show=2&mid={$data.msg_id}"><i class="icon-remove"></i></a>
 					<else/>
 						删除&nbsp;
-						<a href="<?php echo U('message/operation');?>&if_show=1&mid={$data.msg_id}"><i class="icon-remove"></i></a>
+						<a href="<?php echo U('message/operation');?>&if_show=1&mid={$data.msg_id}"><i class="icon-ok"></i></a>
 					</eq>
 				</td>
 				<td>{$data.add_time|date='Y-m-d H:i:s',###}</td>
