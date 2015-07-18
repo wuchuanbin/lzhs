@@ -46,6 +46,95 @@
 		$this->assign('page', $show);
 		$this->display();
 	}
+
+	/**
+	 *	根据教师对应班级获取消息列表
+	 */
+	public function classMsgList() {
+		
+		$_SESSION['userInfo']['class_id1'] = 28;
+		$_SESSION['userInfo']['class_id2'] = 29;
+
+		$class_id1 = $_SESSION['userInfo']['class_id1'];
+		$class_id2 = $_SESSION['userInfo']['class_id2'];
+
+		$cid = isset($_REQUEST['cid']) ? intval($_REQUEST['cid']) : $class_id1;
+
+		if(!$cid) {
+			$this->assign('title', '查看失败');
+			$this->assign('message', '班级ID有误');
+			$this->error();
+		}
+
+		$class_msg_cate = M('class_msg_cate');
+		$class_msg = M('class_msg');
+
+		$class_name = array();
+		
+		if($class_id1) {
+			$class_name[] = $class_msg_cate->where('cate_id=' . $class_id1)->find();
+		}
+
+		if($class_id2) {
+			$class_name[] = $class_msg_cate->where('cate_id=' . $class_id2)->find();
+		}
+		
+
+		$condition = array();
+		$condition['cate_id'] = array('eq', $cid);
+		$condition['if_show'] = array('eq', '1');
+
+		$class_msg_list = $class_msg->where($condition)->select();
+
+		$article = M('article');
+
+		$article_list = $article->where('if_show=1')->order('sort_order')->limit(5)->select();
+	
+		$this->assign('article_list', $article_list);
+
+		$this->assign('class_name', $class_name);
+
+		$this->assign('class_msg_list', $class_msg_list);
+
+		$this->display();
+	}
+
+	/**
+	 *	查看单条消息
+	 */
+	public function detail() {
+		
+		$mid = isset($_REQUEST['mid']) ? intval($_REQUEST['mid']) : NULL;
+
+		if(!$mid) {
+			$this->assign('title', '查看失败');
+			$this->assign('message', '消息ID有误');
+			$this->error();
+		}
+
+		$class_msg = M('class_msg');
+
+		$condition = array();
+		$condition['msg_id'] = array('eq', $mid);
+
+		$info = $class_msg->where($condition)->find();
+
+		if(!$info) {
+			$this->assign('title', '查看失败');
+			$this->assign('message', '消息ID有误');
+			$this->error();
+		}
+
+		$article = M('article');
+
+		$list = $article->where('if_show=1')->order('sort_order')->limit(5)->select();
+	
+		$this->assign('list', $list);
+
+		$this->assign('info', $info);
+
+		$this->display();
+	}
 	
 	/**
 	 *	添加消息

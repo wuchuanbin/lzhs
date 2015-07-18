@@ -46,6 +46,41 @@
 		$this->assign('page', $show);
 		$this->display();
 	}
+
+	/**
+	 *	查看单条文章
+	 */
+	public function detail() {
+		
+		$aid = isset($_REQUEST['aid']) ? intval($_REQUEST['aid']) : NULL;
+
+		if(!$aid) {
+			$this->assign('title', '查看失败');
+			$this->assign('message', '文章ID有误');
+			$this->error();
+		}
+
+		$article = M('article');
+
+		$condition = array();
+		$condition['article_id'] = array('eq', $aid);
+
+		$info = $article->where($condition)->find();
+
+		if(!$info) {
+			$this->assign('title', '查看失败');
+			$this->assign('message', '文章ID有误');
+			$this->error();
+		}
+
+		$list = $article->where('if_show=1')->order('sort_order')->limit(5)->select();
+	
+		$this->assign('list', $list);
+
+		$this->assign('info', $info);
+
+		$this->display();
+	}
 	
 	/**
 	 *	添加文章
