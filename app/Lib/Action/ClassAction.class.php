@@ -63,7 +63,7 @@
 
 		$this->assign('list', $list);
 		$this->assign('page', $show);
-		$this->display();
+		$this->display('Class:photoList');
 	}
 	
 	/**
