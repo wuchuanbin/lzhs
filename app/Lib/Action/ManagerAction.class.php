@@ -59,9 +59,8 @@ class ManagerAction extends Action {
             $upload = new UploadFile();// 实例化上传类
             $upload->maxSize  = 2000000 ;// 上传大小2M
             $upload->allowExts  = array('csv');// 设置附件上传类型
-            $upload->savePath = "./app/Uploads/" . date('Y-m-d') . '/';
-            mkdir("./app/Uploads/" . date('Y-m-d') . '/',0777);
-            chmod("./app/Uploads/" . date('Y-m-d') . '/',0777);
+            $upload->savePath = "./app/Uploads/student/";
+
             if(!$upload->upload()) {
                 $this->assign('title', '上传失败');
                 $this->assign('message', $upload->getErrorMsg());
