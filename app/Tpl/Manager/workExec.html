@@ -1,0 +1,122 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+    tr, td{
+        height:30px;
+        line-height:30px;
+        padding-left:8px;
+    }
+    .btns-box{
+        text-align:right;
+    }
+</style>
+<div class="span9">
+    <h1 class="page-title">{$title}</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('Manager/UserList'); ?>" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="well">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>作业ID：</td>
+                <td>{$info.id}</td>
+            </tr>
+
+            <tr>
+                <td>名称：</td>
+                <td><input type="text" name="name" value="{$info.name}" placeholder="请输入作业名称" /></td>
+            </tr>
+
+            <tr>
+                <td>班级：</td>
+                <td><select name="class_id">
+                    <option value="">--请选择--</option>
+                    <volist name='cate_list' id='cate'>
+                        <option value="{$cate.cate_id}">{$cate.cate_name}</option>
+                    </volist>
+                </select>
+                </td>
+            </tr>
+
+
+            <tr class="btns-box">
+                <td colspan='2'>
+                    <input type="submit" value="提交" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" value="重置" name="reset" />
+                </td>
+            </tr>
+            </thead>
+        </table>
+        <input type="hidden" value="/index.php?m=Manager&a=workExec&id={$info.id}" id="suburl">
+    </div>
+
+</div>
+
+<script>
+    $('#sub').click(function() {
+
+//        if(!$('[name = title]').val()) {
+//            alert('请输入通知标题');
+//            return false;
+//        }
+
+//        if(!$('[name ^= cate_id]').val()) {
+//            alert('请选择通知班级');
+//            return false;
+//        }
+
+//        if(!$('[name ^= content]').val()) {
+//            alert('请编辑通知内容');
+//            return false;
+//        }
+
+        var url = $('#suburl').val();
+
+        if(!url) {
+            alert('请求失败，请重试');
+            return false;
+        }
+
+
+
+
+
+        $.ajax({
+            url:url,
+            type:'post',
+            dataType:'json',
+            data:{
+                'name':$('[name = name]').val(),
+                'class_id':$('[name = class_id]').val()
+
+            },
+            success:function(msg) {
+
+                alert(msg.info);
+
+                if(msg.status == 1) {
+
+                    window.location.href = '/index.php?m=Manager&a=HomeWorkList';
+                }
+                return false;
+            }
+
+        });
+    });
+</script>
+
+<include file="Common:Manager_footer" />

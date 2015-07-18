@@ -1,0 +1,70 @@
+<include file="Common:Manager_header" />
+<include file="Common:Manager_menu" />
+
+<style>
+
+	tr, td{
+		height:30px;
+		line-height:30px;
+		padding-left:8px;
+	}
+	.btns-box{
+		text-align:right;
+	}
+</style>
+<div class="span9">
+    <h1 class="page-title">上传作业</h1>
+    <div class="btn-toolbar">
+        <a href="<?php echo U('Manager/HomeWorkList'); ?>" style='color:#fff;'><button class="btn btn-primary">返回列表</button></a>
+        <div class="btn-group">
+        </div>
+    </div>
+    <div class="well">
+		<form action="" enctype="multipart/form-data" method="POST" id="formup">
+        <table style="margin-left: 26px;">
+            <thead>
+            <tr>
+                <td>选择班级：</td>
+                <td>
+					<select name="belong">
+						<option value="">--请选择--</option>
+						<volist name='list' id='work'>
+							<option value="{$work.id}">{$work.name}</option>
+						</volist>
+					</select>
+				</td>
+            </tr>
+            <tr>
+                <td>上传：</td>
+                <td><input type='file' name="photo[]" multiple="multiple"/></td>
+            </tr>
+			<tr class="btns-box">
+				<td colspan='2'>
+					<input type="submit" value="提交" name="submit" id="sub"/>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="重置" name="reset" />
+				</td>
+			</tr>
+            </thead>
+        </table>
+		</form>
+    </div>
+
+</div>
+
+<script>
+	$('#sub').click(function() {
+
+		if(!$('[name ^= belong]').val()) {
+			alert('请选择班级');
+			return false;
+		}
+		if(!$('[name ^= photo]').val()) {
+			alert('请选择图片上传');
+			return false;
+		}
+
+		$('#formup').submit();
+	});
+</script>
+
+<include file="Common:Manager_footer" />

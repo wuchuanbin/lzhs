@@ -44,7 +44,7 @@
 
 		$count = $article->count();
 
-		$page = new Page($count, 2, 'order=' . $order);
+		$page = new Page($count, 20, 'order=' . $order);
 
 		$show = $page->show();
 

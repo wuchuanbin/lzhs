@@ -41,9 +41,9 @@ class ManagerAction extends Action {
                 $where['is_admin'] = 2;
             } elseif($type=='admin'){
                 $where['is_admin'] = 1;
-            } else {
-                $where['is_admin'] = 0;
             }
+        } else {
+            $where['is_admin'] = 0;
         }
 
         $obj = M('users');
@@ -74,7 +74,6 @@ class ManagerAction extends Action {
      * 学生信息导入
      */
     function importStudents(){
-
         if($_POST){
             import('ORG.Net.UploadFile');
             $upload = new UploadFile();// 实例化上传类
@@ -194,6 +193,182 @@ class ManagerAction extends Action {
             }
 
             $this->display('userExec');
+        }
+    }
+
+
+    function HomeWorkList(){
+        $order = empty($_REQUEST['order']) ? 'create_time' : htmlspecialchars($_REQUEST['order']);
+        $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
+        $where = array();
+
+
+        $obj = M('homework');
+
+        import('ORG.Util.Page');
+
+        $count = $obj->where($where)->count();
+//        echo $count;
+//        echo 888;
+        $page = new Page($count, 20, 'order=' . $order);
+//echo 555;
+        $show = $page->show();
+//echo 123;
+        $list = $obj->where($where)->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+//        echo $obj->getLastSql();
+//print_r($list);
+
+
+        $this->assign('list', $list);
+        $this->assign('page', $show);
+        $this->display('Manager:HomeWorkList');
+    }
+
+    function dianPing(){
+        $order = empty($_REQUEST['order']) ? 'add_time' : htmlspecialchars($_REQUEST['order']);
+        $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
+        $id = $_GET['id'];
+        $where = array('belong'=>$id);
+
+
+
+        $obj = M('uploaded_file');
+
+        import('ORG.Util.Page');
+
+        $count = $obj->where($where)->count();
+//        echo $count;
+//        echo 888;
+        $page = new Page($count, 20, 'order=' . $order);
+//echo 555;
+        $show = $page->show();
+//echo 123;
+        $list = $obj->where($where)->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+//        echo $obj->getLastSql();
+//print_r($list);
+
+
+        $this->assign('list', $list);
+        $this->assign('page', $show);
+        $this->display('Manager:dianPing');
+    }
+
+    function setPing(){
+        unset($_POST['submit']);
+        unset($_POST['__hash__']);
+        $obj = M('uploaded_file');
+        foreach($_POST as $key=>$value){
+            $data['file_name'] = $value['file_name'];
+            $data['remark'] = $value['remark'];
+            $obj->where("file_id = ".$key)->save($data);
+        }
+        $this->assign('title', '评语设置成功！');
+        $this->assign('jumpUrl', U('Manager/HomeWorkList'));
+        $this->success();
+    }
+
+
+    function workExec(){
+        $obj = M('homework');
+        $id = $_GET['id'];//if not exec addaction   else   editaction
+
+
+        //class list
+        $cate = M('class_msg_cate');
+
+        $list = $cate->select();
+
+        $this->assign('cate_list', $list);
+
+        if($_POST) {
+            //info
+            $data['name'] = $_POST['name'];
+            $data['class_id'] = $_POST['user_name'];
+            $data['tid'] = $_SESSION['uid'];
+            $data['create_time'] = time();
+
+            if ($id > 0) {
+                //edit
+                $where['id'] = $id;
+                unset($data['create_time']);
+                $ret = $obj->where($where)->save($data);
+            } else {
+                //add
+                $ret = $obj->add($data);
+            }
+            if ($ret) {
+                $this->success('ok');
+            } else {
+                $this->error('Fail');
+            }
+        } else {
+            if($id>0){
+                $info = $obj->where("id = ".$id)->find();
+                $this->assign('info',$info);
+                $this->assign('title','编辑作业');
+            } else {
+                $this->assign('title','新建作业');
+            }
+
+            $this->display('workExec');
+        }
+    }
+
+
+
+    public function UpWork(){
+
+
+//        $r = mkdir(dirname(__FILE__)."/app/Uploads/" . date('Y-m-d') . '/',0777,true);
+//        echo dirname(__FILE__)."/app/Uploads/" . date('Y-m-d') . '/';
+//        var_dump($r);
+//        die;
+        if(!$_POST) {
+            $cate = M('homework');
+            $list = $cate->select();
+            $this->assign('list', $list);
+
+            $this->display();
+        } else {
+
+            import('ORG.Net.UploadFile');
+
+            $upload = new UploadFile();// 实例化上传类
+
+            $upload->maxSize  = 2000000 ;// 上传大小2M
+
+            $upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+
+            mkdir("./app/Uploads/" . date('Y-m-d') . '/',0777,true);
+            $upload->savePath = "./app/Uploads/" . date('Y-m-d') . '/';
+            if(!$upload->upload()) {
+                $this->assign('title', '上传失败');
+                $this->assign('message', $upload->getErrorMsg());
+                $this->error();
+
+            } else {
+                $info =  $upload->getUploadFileInfo();
+            }
+            $upload_file = M("uploaded_file");
+
+            foreach($info as $key => $val) {
+
+                $data['uid']       = I('session.uid', '', null);
+                $data['file_type'] = $val['extension'];
+                $data['file_size'] = $val['size'];
+                $data['file_name'] = $val['name'];
+                //$tmp = explode($str, $val['savepath']);
+                $data['file_path'] =  $val['savepath'].$val['savename'];	// 1 上线 2 下线
+                $data['add_time']  = time();
+                $data['belong']    = I('post.belong', '', 'intval');
+                $data['item_id']   = 2;
+
+                $upload_file->data($data)->add();
+            }
+
+            $this->assign('title', '上传成功');
+            $this->assign('jumpUrl', U('Manager/UpWork'));
+            $this->success();
         }
     }
 
