@@ -7,9 +7,22 @@
 	
 	public function __construct() {
 		
-		//检查是否登录，是否有权限
 		parent::__construct();
 		
+	}
+	
+	/**
+	 *	检查权限
+	 */
+	private function checkPermission() {
+		
+		if(!$_SESSION['uid']) {
+			return -1;	//未登录
+		}
+
+		$level = $_SESSION['userInfo']['is_admin'];
+
+		return $level;
 	}
 
 	/**
@@ -17,6 +30,11 @@
 	 *	order 排序方式 add_time时间 / sort_order权重 / cate_id类别 默认 add_time  
 	 */
 	public function index() {
+		
+		if($this->checkPermission() <= 0) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 
 		$order = empty($_REQUEST['order']) ? 'add_time' : htmlspecialchars($_REQUEST['order']);
 
@@ -86,6 +104,11 @@
 	 *	添加文章
 	 */
 	public function add() {
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+
+			$this->ajaxReturn('', '您未登录或无权限访问此页面！', -1);
+		}
 		
 		if($_POST) {
 			
@@ -127,6 +150,11 @@
 	 *	编辑文章
 	 */
 	public function edit() {
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 		
 		$aid = isset($_REQUEST['aid']) ? intval($_REQUEST['aid']) : NULL;
 
@@ -190,6 +218,11 @@
 	 *	操作 if_show = 1 上线 / if_show = 2 下线 
 	 */
 	public function operation() {
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 		
 		$aid     = isset($_GET['aid'])     ? intval($_GET['aid'])     : NULL;
 		$if_show = isset($_GET['if_show']) ? intval($_GET['if_show']) : NULL;
@@ -238,6 +271,11 @@
 	 *	上传文件
 	 */
 	public function upload(){ 
+
+		if($this->checkPermission() <= 0) {
+			echo "<font color=\"red\"size=\"2\">*您未登录或无权限访问此页面！</font>"; 
+			exit;
+		}
 		
 		$max_file_size = 2000000; //上传文件大小
         $extensions = array("jpg","bmp","gif","png");	//上传文件类型

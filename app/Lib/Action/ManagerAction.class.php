@@ -6,13 +6,33 @@ class ManagerAction extends Action {
     public function index(){
         $this->display();
     }
+	
+	/**
+	 *	检查权限
+	 */
+	private function checkPermission() {
+		
+		if(!$_SESSION['uid']) {
+			return -1;	//未登录
+		}
 
+		$level = $_SESSION['userInfo']['is_admin'];
+
+		return $level;
+	}
 
     /**
      * UserList
      */
 
     function UserList(){
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
+
         $order = empty($_REQUEST['order']) ? 'reg_time' : htmlspecialchars($_REQUEST['order']);
         $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
         $where = array();
@@ -54,6 +74,7 @@ class ManagerAction extends Action {
      * 学生信息导入
      */
     function importStudents(){
+
         if($_POST){
             import('ORG.Net.UploadFile');
             $upload = new UploadFile();// 实例化上传类
@@ -121,6 +142,13 @@ class ManagerAction extends Action {
      * 用户信息编辑 单个用户增加
      */
     function userExec(){
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
+
         $obj = M('users');
         $uid = $_GET['uid'];//if not exec addaction   else   editaction
 

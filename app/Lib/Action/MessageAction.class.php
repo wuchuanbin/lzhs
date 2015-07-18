@@ -13,10 +13,29 @@
 	}
 
 	/**
+	 *	检查权限
+	 */
+	private function checkPermission() {
+		
+		if(!$_SESSION['uid']) {
+			return -1;	//未登录
+		}
+
+		$level = $_SESSION['userInfo']['is_admin'];
+
+		return $level;
+	}
+
+	/**
 	 *	消息列表
 	 *	order 排序方式 add_time时间 / sort_order权重 / cate_id班级类别 默认 add_time  
 	 */
 	public function index() {
+
+		if($this->checkPermission() <= 0) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 
 		$order = empty($_REQUEST['order']) ? 'add_time' : htmlspecialchars($_REQUEST['order']);
 
@@ -51,9 +70,12 @@
 	 *	根据教师对应班级获取消息列表
 	 */
 	public function classMsgList() {
-		
-		$_SESSION['userInfo']['class_id1'] = 28;
-		$_SESSION['userInfo']['class_id2'] = 29;
+
+		if($this->checkPermission() <= 0) {
+			
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 
 		$class_id1 = $_SESSION['userInfo']['class_id1'];
 		$class_id2 = $_SESSION['userInfo']['class_id2'];
@@ -140,6 +162,11 @@
 	 *	添加消息
 	 */
 	public function add() {
+
+		if($this->checkPermission() <= 0) {
+			
+			$this->ajaxReturn('', '您未登录或无权限访问此页面！', -1);
+		}
 		
 		if($_POST) {
 			
@@ -177,6 +204,12 @@
 	 *	编辑消息
 	 */
 	public function edit() {
+
+		if($this->checkPermission() <= 0) {
+			
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 		
 		$mid = isset($_REQUEST['mid']) ? intval($_REQUEST['mid']) : NULL;
 
@@ -240,6 +273,12 @@
 	 *	操作 if_show = 1 通过 / if_show = 2 删除 
 	 */
 	public function operation() {
+
+		if($this->checkPermission() <= 0) {
+			
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 		
 		$mid     = isset($_GET['mid'])     ? intval($_GET['mid'])     : NULL;
 		$if_show = isset($_GET['if_show']) ? intval($_GET['if_show']) : NULL;

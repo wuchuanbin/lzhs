@@ -13,11 +13,30 @@
 	}
 
 	/**
+	 *	检查权限
+	 */
+	private function checkPermission() {
+		
+		if(!$_SESSION['uid']) {
+			return -1;	//未登录
+		}
+
+		$level = $_SESSION['userInfo']['is_admin'];
+
+		return $level;
+	}
+
+	/**
 	 *	班级照片列表
 	 *	order 排序方式 add_time时间 / belong 班级 默认 add_time 
 	 *	item_id 1 班级 2 作业 3 一寸照
 	 */
 	public function photoList() {
+
+		if($this->checkPermission() <= 0) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 
 		$order = empty($_REQUEST['order']) ? 'add_time' : htmlspecialchars($_REQUEST['order']);
 
@@ -51,6 +70,12 @@
 	 *	上传照片
 	 */
 	public function upload() {
+
+		if($this->checkPermission() <= 0) {
+			
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 
 		if(!$_POST) {
 			$cate = M('class_msg_cate');
@@ -112,6 +137,11 @@
 	 *	删除 
 	 */
 	public function del() {
+
+		if($this->checkPermission() <= 0) {
+			
+			$this->ajaxReturn('', '您未登录或无权限访问此页面！', -1);
+		}
 		
 		$fid = isset($_REQUEST['fid']) ? intval($_REQUEST['fid']) : NULL;
 

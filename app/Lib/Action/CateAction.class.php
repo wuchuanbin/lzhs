@@ -26,10 +26,29 @@ class CateAction extends Action{
 	}
 
 	/**
+	 *	检查权限
+	 */
+	private function checkPermission() {
+		
+		if(!$_SESSION['uid']) {
+			return -1;	//未登录
+		}
+
+		$level = $_SESSION['userInfo']['is_admin'];
+
+		return $level;
+	}
+
+	/**
 	 *	班级/文章 分类列表
 	 *	param string flag = class(班级) / article(文章)
 	 */
 	public function index() {
+
+		if($this->checkPermission() <= 0) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 
 		$cate = M($this->table);
 
@@ -54,6 +73,11 @@ class CateAction extends Action{
 	 *	添加
 	 */
 	public function add() {
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			
+			$this->ajaxReturn('', '您未登录或无权限访问此页面！', -1);
+		}
 
 		if($_POST) {
 			
@@ -87,6 +111,11 @@ class CateAction extends Action{
 	 *	编辑
 	 */
 	public function edit() {
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			$this->assign('title', '您未登录或无权限访问此页面！');
+			$this->error();
+		}
 		
 		$cid = isset($_REQUEST['cid']) ? intval($_REQUEST['cid']) : NULL;
 
@@ -141,6 +170,10 @@ class CateAction extends Action{
 	 *	删除 
 	 */
 	public function del() {
+
+		if($this->checkPermission() <= 0 || $this->checkPermission() == 2) {
+			$this->ajaxReturn('', '您未登录或无权限访问此页面！', -1);
+		}
 		
 		$cid = isset($_REQUEST['cid']) ? intval($_REQUEST['cid'])     : NULL;
 
