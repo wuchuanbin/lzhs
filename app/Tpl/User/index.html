@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="__PUBLIC__/css/idangerous.swiper.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/960.css">
+    <link id="css" href="" rel="stylesheet" type="text/css">
+    <script>document.getElementById('css').href = '__PUBLIC__/css/css.css?' + Math.random();</script>
+</head>
+
+<body>
+<div class="container_16">
+    <div class="login-box">
+        <if condition="$Think.session.uid gt 0">
+            <div class="islogin login" style="display: inline">
+                <p>欢迎，<span>{$Think.session.userInfo.user_name}</span>。
+                    <span class="goblackboard pointer">
+                        <if condition="$Think.session.userInfo.is_admin gt 1">
+                            <a href="/index.php?m=Manager&a=index">进入教学平台系统</a>
+                            <else />
+                            <a href="/index.php?m=User&a=index">我的主页</a>
+                        </if>
+                    ｜ <a href="/index.php?m=Login&a=logOut"> 退出</a></span></p>
+            </div>
+            <else/>
+            <div class="notlogin login">
+                <form action="/index.php?m=Login&a=login" method="post" id="loginForm">
+                    <input type="text" placeholder="用户名" name="user_name" class="inline"><input type="password" name="password" placeholder="密码" class="inline"><a href="javascript:login();" class="submit button hover">登陆</a></div>
+            </form>
+        </if><!--  --></div>
+    <div class="clear"></div>
+    <div class="grid_16 logo-box"></div>
+    <div class="clear"></div>
+    <div class="grid_16 nav-box">
+        <ul>
+            <li><a class="hover" href="javascript:;">首页</a></li>
+            <li><a class="hover" href="javascript:;">学校简介</a></li>
+            <li><a class="hover" href="javascript:;">作品欣赏</a></li>
+            <li><a class="hover" href="javascript:;">光荣榜</a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="grid_4 sidebar-box">
+        <div class="sec-box">
+            <h3>画室简介</h3>
+            <p>这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know</p>
+        </div>
+        <div class="sec-box">
+            <h3>画室成绩</h3>
+            <a href="javascript:;">这是一个链接</a>
+            <a href="javascript:;">这是一个链接</a>
+            <a href="javascript:;">这是一个链接</a>
+        </div>
+
+        <div class="sec-box secbbside-box student class">
+            <h3>我的班级</h3>
+            <a href="javascript:;">周日下午一班</a>
+            <a href="javascript:;">周三下午二班</a>
+        </div>
+    </div>
+    <div class="grid_12 cont-box">
+        <div class="sec-box secbb-box student homwork">
+            <volist name="hList" id="work">
+            <div class="entry-box hover"><p class="pointer inline"><span class="class">{$work.name}</span><span class="time">{$work.create_time|date='Y-m-d',###}</span>作业</p></div>
+                </volist>
+
+            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="sec-box secbb-box student news">
+            <volist name="tList" id="notice">
+            <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=Message&a=detail&mid={$notice.msg_id}">{$notice.title}</a></p></div>
+                </volist>
+
+            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="sec-box secbb-box student teacher photo">
+            <volist name="pList" key="i" id="vo">
+            <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline"><div class="img-box"><img src="{$vo.file_path}" width="150px;" height="100px"></div></div>
+            </volist>
+
+            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+            <div class="clear"></div>
+        </div>
+
+        <!--<div class="sec-box secbb-box teacher class">-->
+            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
+            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
+            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
+            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
+            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher namelist">-->
+            <!--<div class="title"><h2>周四下午班</h2></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="btn-box btn-export-box"><a href="javacript:;" class="btn btn-export">导出名单</a></div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher homeworklist">-->
+            <!--<div class="title"><h2>周四下午班</h2></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月20日作业</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月21日作业</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月22日作业</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月23日作业</p></div>-->
+            <!--<div class="btn-box btn-uploadh-box"><a href="javacript:;" class="btn btn-uploadh">上传作业</a></div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher upload uploadhomework">-->
+            <!--<div class="box">-->
+                <!--<select name="class" id="class">-->
+                    <!--<option value="default">选择班级</option>-->
+                    <!--<option value="1">周三一班</option>-->
+                    <!--<option value="2">周日二班</option>-->
+                <!--</select>-->
+                <!--<input type="text" class="homeworkname" placeholder="输入作业名">-->
+                <!--<div class="class"><p>7月20日作业</p></div>-->
+                <!--<div class="state"><p>作业照片上传成功</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
+            <!--<div class="clear"></div>-->
+            <!--<div class="abs"><p><span>xxx.jpg</span>等共<span class="qua">13</span>张</p></div>-->
+            <!--<div class="btns-box">-->
+                <!--<div class="btn-box btn-select-box"><input type="file" class="btn btn-select" placeholder="选择文件"></div>-->
+                <!--<div class="btn-box btn-upload-box"><a href="javacript:;" class="btn btn-upload">上传</a></div>-->
+            <!--</div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher newslist">-->
+            <!--<div class="title"><h2>周四下午班</h2></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月20日不上课的通知</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月21日不上课的通知</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月22日不上课的通知</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月23日不上课的通知</p></div>-->
+            <!--<div class="btn-box btn-uploadn-box"><a href="javacript:;" class="btn btn-uploadn">上传消息</a></div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher upload uploadnews">-->
+            <!--<div class="box">-->
+                <!--<select name="class" id="class">-->
+                    <!--<option value="default">选择班级</option>-->
+                    <!--<option value="1">周三一班</option>-->
+                    <!--<option value="2">周日二班</option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<input type="text" class="newsname" placeholder="消息标题">-->
+            <!--<textarea name="news" id="newscont" cols="30" rows="10"></textarea>-->
+            <!--<div class="btns-box">-->
+                <!--<div class="btn-box btn-upload-box"><a href="javacript:;" class="btn btn-upload">上传</a></div>-->
+            <!--</div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher newslist">-->
+            <!--<div class="title"><h2>周四下午班</h2></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月20日不上课的通知</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月21日不上课的通知</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月22日不上课的通知</p></div>-->
+            <!--<div class="entry-box hover "><p class="pointer inline">7月23日不上课的通知</p></div>-->
+            <!--<div class="btn-box btn-uploadn-box"><a href="javacript:;" class="btn btn-uploadn">上传消息</a></div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher pic photo">-->
+            <!--<div class="box">-->
+                <!--<select name="class" id="class">-->
+                    <!--<option value="default">选择班级</option>-->
+                    <!--<option value="1">周三一班</option>-->
+                    <!--<option value="2">周日二班</option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="entry-box inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box last inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="entry-box last inline">-->
+                <!--<div class="img-box"></div>-->
+                <!--<div class="des"><p>照片1</p></div>-->
+            <!--</div>-->
+            <!--<div class="btns-box">-->
+                <!--<div class="btn-box btn-next-box"><a href="javacript:;" class="btn btn-next">下一页</a></div>-->
+                <!--<div class="btn-box btn-prev-box"><a href="javacript:;" class="btn btn-prev">上一页</a></div>-->
+            <!--</div>-->
+            <!--<div class="btns-box">-->
+                <!--<div class="btn-box btn-upload-box"><a href="javacript:;" class="btn btn-upload">上传</a></div>-->
+            <!--</div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+        <!--<div class="sec-box secbb-box teacher upload uploadpic">-->
+            <!--<div class="box">-->
+                <!--<select name="class" id="class">-->
+                    <!--<option value="default">选择班级</option>-->
+                    <!--<option value="1">周三一班</option>-->
+                    <!--<option value="2">周日二班</option>-->
+                <!--</select>-->
+                <!--<div class="state"><p>照片上传成功</p></div>-->
+            <!--</div>-->
+            <!--<div class="abs"><p><span>xxx.jpg</span>等共<span class="qua">13</span>张</p></div>-->
+            <!--<div class="btns-box">-->
+                <!--<div class="btn-box btn-select-box"><input type="file" class="btn btn-select" placeholder="选择文件"></div>-->
+                <!--<div class="btn-box btn-upload-box"><a href="javacript:;" class="btn btn-upload">上传</a></div>-->
+            <!--</div>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+
+    </div>
+
+</div>
+
+<div class="bg"></div>
+
+<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
+<script src="__PUBLIC__/js/idangerous.swiper.min.js"></script>
+<script src="__PUBLIC__/js/js.js?111"></script>
+
+</body>
+</html>

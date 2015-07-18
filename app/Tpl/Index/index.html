@@ -19,7 +19,16 @@
 <div class="container_16">
     <div class="login-box">
         <if condition="$Think.session.uid gt 0">
-            <div class="islogin login" style="display: inline"><p>欢迎，<span>{$Think.session.userInfo.user_name}</span>。<span class="goblackboard pointer"><a href="/index.php?m=Manager&a=index">进入教学平台系统</a></span></p></div>
+            <div class="islogin login" style="display: inline">
+                <p>欢迎，<span>{$Think.session.userInfo.user_name}</span>。
+                    <span class="goblackboard pointer">
+                        <if condition="$Think.session.userInfo.is_admin gt 1">
+                    <a href="/index.php?m=Manager&a=index">进入教学平台系统</a>
+                            <else />
+                            <a href="/index.php?m=User&a=index">我的主页</a>
+                            </if>
+                    ｜ <a href="/index.php?m=Login&a=logOut"> 退出</a></span></p>
+            </div>
             <else/>
         <div class="notlogin login">
             <form action="/index.php?m=Login&a=login" method="post" id="loginForm">

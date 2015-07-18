@@ -14,8 +14,8 @@ class LoginAction extends Action{
         $where['user_name'] = $_POST['user_name'];
         $where['password'] = $_POST['password'];
 
-        $where['user_name'] = '小王';
-        $where['password'] = '123456';
+//        $where['user_name'] = '小王';
+//        $where['password'] = '123456';
         $obj = M('users');
         $info = $obj->where($where)->find();
         if(!empty($info)){

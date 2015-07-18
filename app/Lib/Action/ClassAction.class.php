@@ -48,7 +48,7 @@
 
 		$count = $upload_file->where('item_id=' . $item_id)->count();
 
-		$page = new Page($count, 2, 'order=' . $order);
+		$page = new Page($count, 20, 'order=' . $order);
 
 		$show = $page->show();
 
@@ -93,13 +93,8 @@
 
 			$upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
 
-			if($_SERVER['HTTP_HOST'] == 'www.txlz.cc') {
-				$upload->savePath = "/home/lzhstljzph2s/wwwroot/app/Uploads/" . date('Y-m-d') . '/';
-				$str = '/home/lzhstljzph2s/wwwroot/';
-			} else {
-				$upload->savePath = "E:/lzhs/app/Uploads/" . date('Y-m-d') . '/';
-				$str = 'E:/lzhs/';
-			}
+            mkdir("./app/Uploads/" . date('Y-m-d') . '/',0777,true);
+            $upload->savePath = "./app/Uploads/" . date('Y-m-d') . '/';
 			
 			if(!$upload->upload()) {
 				$this->assign('title', '上传失败');
@@ -118,8 +113,8 @@
 				$data['file_type'] = $val['extension'];
 				$data['file_size'] = $val['size'];
 				$data['file_name'] = $val['name'];
-				$tmp = explode($str, $val['savepath']);
-				$data['file_path'] = $tmp[1] . $val['savename'];	// 1 上线 2 下线
+
+				$data['file_path'] = $val['savepath'] . $val['savename'];	// 1 上线 2 下线
 				$data['add_time']  = time();
 				$data['belong']    = I('post.belong', '', 'intval');
 				$data['item_id']   = 1;
