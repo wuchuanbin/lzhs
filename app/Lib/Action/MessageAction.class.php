@@ -44,7 +44,7 @@
 
 		$this->assign('list', $list);
 		$this->assign('page', $show);
-		$this->display();
+		$this->display('message:index');
 	}
 
 	/**
@@ -133,7 +133,7 @@
 
 		$this->assign('info', $info);
 
-		$this->display();
+		$this->display('message:detail');
 	}
 	
 	/**
@@ -169,7 +169,7 @@
 			$list = $cate->select();
 
 			$this->assign('cate_list', $list);
-			$this->display();
+			$this->display('message:add');
 		}
 	}
 
@@ -233,7 +233,7 @@
 
 		$this->assign('info', $info);
 
-		$this->display();
+		$this->display('message:edit');
 	}
 
 	/**
