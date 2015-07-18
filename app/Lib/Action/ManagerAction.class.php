@@ -47,34 +47,74 @@ class ManagerAction extends Action {
 
         $this->assign('list', $list);
         $this->assign('page', $show);
-        $this->display();
+        $this->display('Manager:UserList');
     }
 
     /**
      * 学生信息导入
      */
     function importStudents(){
-        if($_FILES){
-            //
+        if($_POST){
+            import('ORG.Net.UploadFile');
+            $upload = new UploadFile();// 实例化上传类
+            $upload->maxSize  = 2000000 ;// 上传大小2M
+            $upload->allowExts  = array('csv');// 设置附件上传类型
+            $upload->savePath = "./app/Uploads/" . date('Y-m-d') . '/';
+            mkdir("./app/Uploads/" . date('Y-m-d') . '/',0777);
+            chmod("./app/Uploads/" . date('Y-m-d') . '/',0777);
+            if(!$upload->upload()) {
+                $this->assign('title', '上传失败');
+                $this->assign('message', $upload->getErrorMsg());
+                $this->error();
+            } else {
+                $info =  $upload->getUploadFileInfo();
+                $data = file($info[0]['savepath'].$info[0]['savename']);
+                $data = $this->arrayCoding($data,'gb2312','utf-8');
+                unset($data[0]);
+                $dtime = time();
+                $obj = M('users');
+                $i=0;
+                foreach($data as $v){
+                    $s = explode(',',$v);
+                    $sql = "insert into users (`uid`,`user_name`,`email`,`password`,`is_admin`,`class_id1`,`class_id2`,`status`,`reg_time`)";
+                    $sql .=" VALUES ('NULL','{$s[2]}','{$s[1]}','{$s[3]}','{$s[4]}','{$s[5]}','{$s[6]}',1,{$dtime})";
+                    $obj->query($sql);
+                    unset($sql);
+                }
+                $this->success('ok!');
+            }
         } else {
-            //
             $this->display('import');
         }
+    }
+
+
+    //array coding
+    function arrayCoding ($array, $inCharset, $outCharset) {
+        if (!is_array($array))
+            return false;
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                arrayCoding($value, $inCharset, $outCharset);
+            } else {
+                $value = iconv($inCharset, $outCharset, $value);
+            }
+        }
+        return $array;
     }
 
     function exportStudents(){
         // 文件标签
         // Header("Content-type: application/octet-stream");
         header("Content-type: application/vnd.ms-excel; charset=utf-8");
-        Header("Content-Disposition: attachment; filename=goods_number.csv");
+        Header("Content-Disposition: attachment; filename=users.csv");
         //echo '商品名称，商品价格';
         //遍历商品信息
         $obj = M('users');
-
         $list = $obj->select();
-        echo iconv('utf-8', 'gb2312', '用户ID,邮箱,名字,密码,老师－2,第一所属班级ID,第二班级ID,'."\n");
+        echo iconv('utf-8', 'gb2312', '用户ID,邮箱,名字,密码,老师－2,第一所属班级ID,第二班级ID'."\n");
         foreach($list as $v1){
-            echo iconv('utf-8', 'gb2312', $v1['uid'].','.$v1['email'].','.$v1['user_name'].','.$v1['password'].','.$v1['is_admin'].','.$v1['class_id1'].','.$v1['class_id2']."\n");
+            echo iconv('utf-8', 'gb2312', $v1['uid'].','.$v1['email'].','.$v1['user_name'].','.$v1['password'].','.$v1['is_admin'].','.$v1['class_id1'].','.$v1['class_id2'].",\n");
         }
     }
 
@@ -126,7 +166,7 @@ class ManagerAction extends Action {
                 $this->assign('title','新增用户');
             }
 
-            $this->display();
+            $this->display('userExec');
         }
     }
 
