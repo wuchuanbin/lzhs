@@ -22,7 +22,7 @@
             <div class="islogin login" style="display: inline">
                 <p>欢迎，<span>{$Think.session.userInfo.user_name}</span>。
                     <span class="goblackboard pointer">
-                        <if condition="$Think.session.userInfo.is_admin gt 1">
+                        <if condition="$Think.session.userInfo.is_admin eq 1">
                     <a href="/index.php?m=Manager&a=index">进入教学平台系统</a>
                             <else />
                             <a href="/index.php?m=User&a=index">我的主页</a>

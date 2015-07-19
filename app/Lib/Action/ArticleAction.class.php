@@ -142,7 +142,7 @@
 			$list = $cate->select();
 
 			$this->assign('cate_list', $list);
-			$this->display();
+			$this->display('article:add');
 		}
 	}
 

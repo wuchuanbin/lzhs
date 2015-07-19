@@ -39,11 +39,14 @@ class ManagerAction extends Action {
         if(!empty($type)){
             if($type=='teacher'){
                 $where['is_admin'] = 2;
+                $this->assign('title','老师列表');
             } elseif($type=='admin'){
                 $where['is_admin'] = 1;
+                $this->assign('title','管理员列表');
             }
         } else {
             $where['is_admin'] = 0;
+            $this->assign('title','学生列表');
         }
 
         $obj = M('users');
@@ -328,7 +331,7 @@ class ManagerAction extends Action {
             $list = $cate->select();
             $this->assign('list', $list);
 
-            $this->display();
+            $this->display('UpWork');
         } else {
 
             import('ORG.Net.UploadFile');
