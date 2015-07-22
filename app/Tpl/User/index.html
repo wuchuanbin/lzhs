@@ -63,7 +63,8 @@
     <div class="grid_12 cont-box">
         <div class="sec-box secbb-box student homwork">
             <volist name="hList" id="work">
-            <div class="entry-box hover"><p class="pointer inline"><span class="class">{$work.name}</span><span class="time">{$work.create_time|date='Y-m-d',###}</span>作业</p></div>
+            <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=User&a=homework&id={$work.id}"><span class="class">{$work.name}
+            </span><span class="time">{$work.create_time|date='Y-m-d',###}</span>作业</a></p></div>
                 </volist>
 
             <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>

@@ -31,7 +31,7 @@
             </thead>
             <tbody>
             <volist name='list' id='data' key='i'>
-            <tr>
+            <tr id="list{$data.uid}">
                 <td>{$i}</td>
                 <td>{$data.uid}</td>
                 <td>{$data.email}</td>
@@ -44,7 +44,7 @@
                 <td>{$data.class_id2}</td>
                 <td>
                     <a href="/index.php?m=Manager&a=userExec&uid={$data.uid}"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
+                    <a onclick="delOne({$data.uid})" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
                 </td>
             </tr>
             </volist>
@@ -78,7 +78,20 @@
     </div>
 
 </div>
+<script>
+    function delOne(id){
+        if(confirm("确定删除？")){
+            $.get('/index.php?m=Manager&a=delOne',{'uid':id},function(msg){
+                if(msg.done){
+                    $('#list'+id).hide();
+                } else {
+                    alert('删除失败！');
+                }
+            },'json')
+        }
 
+    }
+    </script>
 
 
 <include file="Common:Manager_footer" />

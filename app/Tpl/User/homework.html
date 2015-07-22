@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>桐乡画室 -- {$info.title}</title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="__PUBLIC__/css/idangerous.swiper.css">
+<link rel="stylesheet" href="__PUBLIC__/css/960.css">
+<link id="css" href="" rel="stylesheet" type="text/css">
+<script>document.getElementById('css').href = '__PUBLIC__/css/css.css?' + Math.random();</script>
+</head>
+
+<body>
+<div class="container_16">
+    <div class="login-box">
+        <if condition="$Think.session.uid gt 0">
+            <div class="islogin login" style="display: inline">
+                <p>欢迎，<span>{$Think.session.userInfo.user_name}</span>。
+                    <span class="goblackboard pointer">
+                        <if condition="$Think.session.userInfo.is_admin eq 1">
+                            <a href="/index.php?m=Manager&a=index">进入教学平台系统</a>
+                            <else />
+                            <a href="/index.php?m=User&a=index">我的主页</a>
+                        </if>
+                    ｜ <a href="/index.php?m=Login&a=logOut"> 退出</a></span></p>
+            </div>
+            <else/>
+            <div class="notlogin login">
+                <form action="/index.php?m=Login&a=login" method="post" id="loginForm">
+                    <input type="text" placeholder="用户名" name="user_name" class="inline"><input type="password" name="password" placeholder="密码" class="inline"><a href="javascript:login();" class="submit button hover">登陆</a></div>
+            </form>
+        </if><!--  -->
+    </div>
+    <div class="clear"></div> 
+    <div class="grid_16 logo-box"></div>
+    <div class="clear"></div>
+    <div class="grid_16 nav-box">
+        <ul>
+            <li><a class="hover" href="javascript:;">首页</a></li>
+            <li><a class="hover" href="javascript:;">学校简介</a></li>
+            <li><a class="hover" href="javascript:;">作品欣赏</a></li>
+            <li><a class="hover" href="javascript:;">光荣榜</a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="grid_4 sidebar-box">
+        <div class="sec-box">
+            <h3>画室简介</h3>
+            <p>这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know</p>
+        </div>
+        <div class="sec-box">
+            <h3>画室成绩</h3>
+			<volist name='list' id='data' key='i'>
+            <a href="<?php echo U('article/detail'); ?>&aid={$data.article_id}">{$data.title}</a>
+			</volist>
+        </div>
+    </div>
+    <div class="grid_12 cont-box content" style="font-size:20px;">
+        <h1>作业详情</h1>
+        &nbsp;&nbsp;&nbsp;&nbsp;作业名称：{$homework.name}  创建时间：{$homework.create_time|date='Y-m-d H:i:s',###}
+        <div class="sec-box secbb-box student teacher photo">
+            <volist name="list" key="i" id="vo">
+                <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline">
+                    <div class="img-box">
+                        <img src="{$vo.file_path}" width="150px;" height="100px">
+                    </div>
+                    <p style="font-size: 8px;padding: 0;padding-bottom: 10px;margin: 0;line-height: 10px;">评语：{$vo.remark}</p>
+                </div>
+            </volist>
+
+            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="bg"></div>
+
+<script src="__PUBLIC__/js/jquery-1.9.1.min.js"></script>
+<script src="__PUBLIC__/js/idangerous.swiper.min.js"></script>
+<script src="__PUBLIC__/js/js.js?111"></script>
+
+</body>
+</html>

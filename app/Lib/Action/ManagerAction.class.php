@@ -73,6 +73,27 @@ class ManagerAction extends Action {
         $this->display('Manager:UserList');
     }
 
+
+
+    /**
+     * 删除用户
+     */
+    function delOne(){
+
+        $id = intval($_GET['uid']);
+//        echo $id;
+        if($id>0){
+            $obj = M('users');
+            $obj->where("uid = ".$id)->delete();
+//            echo $obj->getLastSql();
+            $data['done'] = true;
+            echo json_encode($data);
+        } else {
+            $data['done'] = false;
+            echo json_encode($data);
+        }
+    }
+
     /**
      * 学生信息导入
      */

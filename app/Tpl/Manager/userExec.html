@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <td>权限：</td>
-                <td><input type='radio' name="is_admin" value="1" checked />管理员
+                <td><input type='radio' name="is_admin" value="1"  />管理员
                     <input type='radio' name="is_admin" value="2" />老师
                     <input type='radio' name="is_admin" value="0" />学生</td>
             </tr>
@@ -139,7 +139,7 @@
                 'password':$('[name = password]').val(),
                 'reg_time':$('[name = reg_time]').val(),
                 'status':$('[name ^= status]').val(),
-                'is_admin':$('[name ^= is_admin]').val(),
+                'is_admin':$('[name ^= is_admin]:checked').val(),
                 'class_id1':$('[name ^= class_id1]').val(),
                 'class_id2':$('[name ^= class_id2]').val(),
             },
@@ -149,7 +149,7 @@
 
                 if(msg.status == 1) {
 
-                    window.location.href = msg.data;
+                    window.location.href = '/index.php?m=Manager&a=UserList';
                 }
                 return false;
             }

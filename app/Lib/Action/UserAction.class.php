@@ -51,4 +51,19 @@ class UserAction extends Action {
 
 
     }
+
+    /**
+     * 作业详情
+     */
+    public function homework(){
+        $id = intval($_GET['id']);
+        $obj = M('uploaded_file');
+        $list = $obj->where("belong = ".$id)->select();
+        $this->assign('list',$list);
+        $obj2 = M('homework');
+        $this->assign('homework',$obj2->where("id = ".$id)->find());
+        $this->display('homework');
+    }
+
+
 }
