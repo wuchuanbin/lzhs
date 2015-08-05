@@ -10,6 +10,13 @@
         <button class="btn"><a href="/index.php?m=Manager&a=importStudents">导入</a></button>
         <button class="btn"><a href="/index.php?m=Manager&a=exportStudents" >导出</a></button>
         <button class="btn"><a href="/index.php?m=Manager&a=upAvatar" >上传一寸照</a></button>
+
+        <select name="class_id1" onchange="sel($(this).val())">
+            <option value="">--请选择--</option>
+            <volist name='cate_list' id='cate'>
+                <option value="{$cate.cate_id}">{$cate.cate_name}</option>
+            </volist>
+        </select>
         <div class="btn-group">
         </div>
     </div>
@@ -91,6 +98,9 @@
             },'json')
         }
 
+    }
+    function sel(id){
+        window.location.href='/index.php?m=Manager&a=UserList&class_id='+id;
     }
     </script>
 

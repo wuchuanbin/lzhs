@@ -36,24 +36,40 @@ class ManagerAction extends Action {
         $order = empty($_REQUEST['order']) ? 'reg_time' : htmlspecialchars($_REQUEST['order']);
         $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
         $where = array();
+        $where = '1 = 1';
         if(!empty($type)){
             if($type=='teacher'){
-                $where['is_admin'] = 2;
+//                $where['is_admin'] = 2;
+                $where .= " and  is_admin = 2 ";
                 $this->assign('title','老师列表');
             } elseif($type=='admin'){
-                $where['is_admin'] = 1;
+//                $where['is_admin'] = 1;
+                $where .= " and  is_admin = 1 ";
                 $this->assign('title','管理员列表');
             }
         } else {
-            $where['is_admin'] = 0;
+//            $where['is_admin'] = 0;
+            $where .= " and  is_admin = 0 ";
             $this->assign('title','学生列表');
         }
+
+        if($_GET['class_id']>0){
+            $where.= " and class_id1 = ".$_GET['class_id'] .' or class_id2 = '.$_GET['class_id'];
+        }
+
+        //class list
+        $cate = M('class_msg_cate');
+
+        $list = $cate->select();
+
+        $this->assign('cate_list', $list);
 
         $obj = M('users');
 
         import('ORG.Util.Page');
-
+//echo $where;die;
         $count = $obj->where($where)->count();
+//        echo $obj->getLastSql();
 //        echo $count;
 //        echo 888;
         $page = new Page($count, 20, 'order=' . $order);
