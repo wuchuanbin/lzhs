@@ -264,6 +264,20 @@ class ManagerAction extends Action {
         $show = $page->show();
 //echo 123;
         $list = $obj->where($where)->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+
+
+
+
+
+
+$obj2 = M('uploaded_file');
+        foreach($list as $key=>$value){
+//            $where = ' belong = "'.$value['id'].'" ';
+//            print_r($where);
+            $where = "belong = '{$value['id']}'";
+            $list[$key]['count'] = $obj2->where($where)->count();
+//            echo $obj->getLastSql();
+        }
 //        echo $obj->getLastSql();
 //print_r($list);
 
@@ -274,7 +288,7 @@ class ManagerAction extends Action {
     }
 
     function dianPing(){
-        $order = empty($_REQUEST['order']) ? 'add_time' : htmlspecialchars($_REQUEST['order']);
+        $order = empty($_REQUEST['order']) ? 'file_name' : htmlspecialchars($_REQUEST['order']);
         $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
         $id = $_GET['id'];
         $where = array('belong'=>$id);
@@ -295,6 +309,9 @@ class ManagerAction extends Action {
         $list = $obj->where($where)->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
 //        echo $obj->getLastSql();
 //print_r($list);
+
+        //获取上传了作业的总数
+        $this->assign('count',$count);
 
 
         $this->assign('list', $list);

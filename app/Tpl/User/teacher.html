@@ -44,10 +44,10 @@
     <div class="clear"></div>
     <div class="grid_4 sidebar-box">
         <div class="sec-box secbbside-box student class">
-            <h3>我的班级</h3>
-            <volist name="class" id="vo">
-                <a href="/index.php?m=Class&a=detail&id={$vo.cate_id}">{$vo.cate_name}</a>
-            </volist>
+            <h3>老师管理</h3>
+            <a href="/index.php?m=message&a=add">发布消息</a>
+            <a href="/index.php?m=Manager&a=UpWork">上传作品</a>
+            <a href="/index.php?m=cate&a=index&flag=class">班级管理</a>
         </div>
         <div class="sec-box">
             <h3>画室简介</h3>
@@ -63,57 +63,61 @@
 
     </div>
     <div class="grid_12 cont-box">
-        <div class="sec-box secbb-box student homwork">
-            <h3>我的作品</h3>
-            <volist name="hList" id="work">
-            <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=User&a=homework&id={$work.id}"><span class="class">{$work.name}
-            </span><span class="time">{$work.create_time|date='Y-m-d',###}</span>作业</a></p></div>
-                </volist>
 
-            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+
+
+
+
+
+
+
+
+        <div class="sec-box secbb-box teacher class">
+            <div class="title"><h2>我的班级</h2></div>
+            <volist name="class" id="vo">
+                <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=Class&a=detail&id={$vo.cate_id}">{$vo.cate_name}</a>删除</p></div>
+
+            </volist>
+
+
             <div class="clear"></div>
         </div>
 
-        <div class="sec-box secbb-box student news">
-            <h3>我的消息</h3>
-            <volist name="tList" id="notice">
-            <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=Message&a=detail&mid={$notice.msg_id}">{$notice.title}</a></p></div>
+        <div class="sec-box secbb-box teacher namelist">
+            <div class="title"><h2>第一班级：{$class.0.cate_name}</h2></div>
+            <volist name="c1" id="vo">
+
+            <div class="entry-box hover grid_5"><p class="pointer inline">{$vo.user_name}</p></div>
                 </volist>
 
-            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+            <!--<div class="btn-box btn-export-box"><a href="javacript:;" class="btn btn-export">导出名单</a></div>-->
+            <div class="clear"></div>
+        </div>
+
+        <div class="sec-box secbb-box teacher namelist">
+            <div class="title"><h2>第二班级：{$class.1.cate_name}</h2></div>
+            <volist name="c2" id="vo">
+
+                <div class="entry-box hover grid_5"><p class="pointer inline">{$vo.user_name}</p></div>
+            </volist>
+
+
             <div class="clear"></div>
         </div>
 
         <div class="sec-box secbb-box student teacher photo">
             <h3>班级相册</h3>
             <volist name="pList" key="i" id="vo">
-            <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline"><div class="img-box"><img src="{$vo.file_path}" width="150px;" height="100px"></div></div>
+                <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline"><div class="img-box"><img src="{$vo.file_path}" width="150px;" height="100px"></div></div>
             </volist>
 
-            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+
             <div class="clear"></div>
         </div>
 
-        <!--<div class="sec-box secbb-box teacher class">-->
-            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
-            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
-            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
-            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
-            <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
-            <!--<div class="clear"></div>-->
-        <!--</div>-->
 
-        <!--<div class="sec-box secbb-box teacher namelist">-->
-            <!--<div class="title"><h2>周四下午班</h2></div>-->
-            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
-            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
-            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
-            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
-            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
-            <!--<div class="entry-box hover grid_5"><p class="pointer inline">孙一聪</p></div>-->
-            <!--<div class="btn-box btn-export-box"><a href="javacript:;" class="btn btn-export">导出名单</a></div>-->
-            <!--<div class="clear"></div>-->
-        <!--</div>-->
+
+
 
         <!--<div class="sec-box secbb-box teacher homeworklist">-->
             <!--<div class="title"><h2>周四下午班</h2></div>-->

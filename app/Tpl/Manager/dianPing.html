@@ -12,8 +12,13 @@
         <table class="table">
             <thead>
             <tr>
+                <td colspan="5">
+                    本作业一共上传了 {$count}  个
+                </td>
+            </tr>
+            <tr>
                 <th>头像</th>
-                <th>名称</th>
+                <th>学号</th>
                 <th>评语</th>
 
                 <th>图片</th>
@@ -27,8 +32,8 @@
 
 			<volist name='list' id='data' key='i'>
             <tr id="class_{$data.file_id}">
-                <td>{$data.file_id}<img src="/app/Uploads/avatar/{$data.file_name}.jpg"></td>
-                <td><input type="text" name="{$data.file_id}[file_name]" value="{$data.file_name}"></td>
+                <td><img src="/app/Uploads/avatar/{$data.file_name}.jpg"></td>
+                <td><input type="hidden" name="{$data.file_id}[file_name]" value="{$data.file_name}">{$data.file_name}</td>
 
                 <td><input type="text" name="{$data.file_id}[remark]" value="{$data.remark}"></td>
                 <td><img src="{$data.file_path}" width='150' height='150'/></td>

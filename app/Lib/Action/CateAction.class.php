@@ -192,7 +192,15 @@ class CateAction extends Action{
 			$this->ajaxReturn('', '参数ID有误', -1);
 		}
 
+
 		$ret = $cate->where($condition)->delete();
+
+        //删除班级对应的作品
+        $obj = M('class_msg');
+        $obj->where(" cate_id = '{$cid}'")->delete();
+        $obj2 = M('uploaded_file');
+        $obj2->where(" item_id = 1 and belong = '{$cid}'")->delete();
+        //删除对应的消息
 	
 		if($ret) {
 			$this->ajaxReturn('', '删除成功', 1);

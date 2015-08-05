@@ -156,6 +156,8 @@
 		}
 
 		$ret = $upload_file->where($condition)->delete();
+
+
 	
 		if($ret) {
 			$this->ajaxReturn('', '删除成功', 1);
