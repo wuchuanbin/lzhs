@@ -11,7 +11,7 @@ class UserAction extends Action {
         } else {
             $class = $obj->where("cate_id in (".$user['class_id1'].','.$user['class_id2'].")")->select();
         }
-        print_r($class);
+//        print_r($class);
         $this->assign('class',$class);
 
 //echo 1;

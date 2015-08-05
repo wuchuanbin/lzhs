@@ -194,6 +194,10 @@ class ManagerAction extends Action {
             $data['class_id1'] = $_POST['class_id1'];
             $data['class_id2'] = $_POST['class_id2'];
 
+            if($data['class_id1']==$data['class_id2']){
+                $this->error('两个班级不能一样！');
+            }
+
             if ($uid > 0) {
                 //edit
                 $where['uid'] = $uid;
@@ -340,14 +344,15 @@ class ManagerAction extends Action {
 
 
 
-    public function UpWork(){
+    public function UpWork()
+    {
 
 
 //        $r = mkdir(dirname(__FILE__)."/app/Uploads/" . date('Y-m-d') . '/',0777,true);
 //        echo dirname(__FILE__)."/app/Uploads/" . date('Y-m-d') . '/';
 //        var_dump($r);
 //        die;
-        if(!$_POST) {
+        if (!$_POST) {
             $cate = M('homework');
             $list = $cate->select();
             $this->assign('list', $list);
@@ -359,33 +364,33 @@ class ManagerAction extends Action {
 
             $upload = new UploadFile();// 实例化上传类
 
-            $upload->maxSize  = 2000000 ;// 上传大小2M
+            $upload->maxSize = 2000000;// 上传大小2M
 
-            $upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            $upload->allowExts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
 
-            mkdir("./app/Uploads/" . date('Y-m-d') . '/',0777,true);
+            mkdir("./app/Uploads/" . date('Y-m-d') . '/', 0777, true);
             $upload->savePath = "./app/Uploads/" . date('Y-m-d') . '/';
-            if(!$upload->upload()) {
+            if (!$upload->upload()) {
                 $this->assign('title', '上传失败');
                 $this->assign('message', $upload->getErrorMsg());
                 $this->error();
 
             } else {
-                $info =  $upload->getUploadFileInfo();
+                $info = $upload->getUploadFileInfo();
             }
             $upload_file = M("uploaded_file");
 
-            foreach($info as $key => $val) {
+            foreach ($info as $key => $val) {
 
-                $data['uid']       = I('session.uid', '', null);
+                $data['uid'] = I('session.uid', '', null);
                 $data['file_type'] = $val['extension'];
                 $data['file_size'] = $val['size'];
                 $data['file_name'] = $val['name'];
                 //$tmp = explode($str, $val['savepath']);
-                $data['file_path'] =  $val['savepath'].$val['savename'];	// 1 上线 2 下线
-                $data['add_time']  = time();
-                $data['belong']    = I('post.belong', '', 'intval');
-                $data['item_id']   = 2;
+                $data['file_path'] = $val['savepath'] . $val['savename'];    // 1 上线 2 下线
+                $data['add_time'] = time();
+                $data['belong'] = I('post.belong', '', 'intval');
+                $data['item_id'] = 2;
 
                 $upload_file->data($data)->add();
             }
@@ -394,6 +399,34 @@ class ManagerAction extends Action {
             $this->assign('jumpUrl', U('Manager/UpWork'));
             $this->success();
         }
+    }
+        /**
+         * 上传一寸照
+         */
+        public function upAvatar(){
+            if(!$_POST) {
+                $this->display('upAvatar');
+            } else {
+                import('ORG.Net.UploadFile');
+                $upload = new UploadFile();// 实例化上传类
+                $upload->maxSize  = 2000000 ;// 上传大小2M
+                $upload->allowExts  = array('jpg');// 设置附件上传类型
+                mkdir('./app/Uploads/avatar/',0777,true);
+                $upload->savePath = "./app/Uploads/avatar/";
+                $upload->saveRule = '';
+                if(!$upload->upload()) {
+                    $this->assign('title', '上传失败');
+                    $this->assign('message', $upload->getErrorMsg());
+                    $this->error();
+
+                } else {
+                    $info =  $upload->getUploadFileInfo();
+                }
+
+                $this->assign('title', '上传成功');
+                $this->assign('jumpUrl', U('Manager/UserList'));
+                $this->success();
+            }
     }
 
 

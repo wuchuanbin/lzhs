@@ -97,7 +97,7 @@
 
 		$this->assign('info', $info);
 
-		$this->display();
+		$this->display('article:detail');
 	}
 	
 	/**
