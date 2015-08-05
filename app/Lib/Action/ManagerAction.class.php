@@ -119,8 +119,13 @@ class ManagerAction extends Action {
                 $i=0;
                 foreach($data as $v){
                     $s = explode(',',$v);
+                    if($s[0]>0){
+                        $uid = $s[0];
+                    } else {
+                        $uid = 'NULL';
+                    }
                     $sql = "insert into users (`uid`,`user_name`,`email`,`password`,`is_admin`,`class_id1`,`class_id2`,`status`,`reg_time`)";
-                    $sql .=" VALUES ('NULL','{$s[2]}','{$s[1]}','{$s[3]}','{$s[4]}','{$s[5]}','{$s[6]}',1,{$dtime})";
+                    $sql .=" VALUES ('{$uid}','{$s[2]}','{$s[1]}','{$s[3]}','{$s[4]}','{$s[5]}','{$s[6]}',1,{$dtime})";
                     $obj->query($sql);
                     unset($sql);
                 }
