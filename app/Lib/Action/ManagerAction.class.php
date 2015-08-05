@@ -155,7 +155,7 @@ class ManagerAction extends Action {
         //遍历商品信息
         $obj = M('users');
         $list = $obj->select();
-        echo iconv('utf-8', 'gb2312', '用户ID,邮箱,名字,密码,老师－2,第一所属班级ID,第二班级ID'."\n");
+        echo iconv('utf-8', 'gb2312', '用户ID,邮箱,名字,密码,老师写2 管理员1 学生0,第一所属班级ID,第二班级ID'."\n");
         foreach($list as $v1){
             echo iconv('utf-8', 'gb2312', $v1['uid'].','.$v1['email'].','.$v1['user_name'].','.$v1['password'].','.$v1['is_admin'].','.$v1['class_id1'].','.$v1['class_id2'].",\n");
         }

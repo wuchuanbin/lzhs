@@ -43,6 +43,12 @@
     </div>
     <div class="clear"></div>
     <div class="grid_4 sidebar-box">
+        <div class="sec-box secbbside-box student class">
+            <h3>我的班级</h3>
+            <volist name="class" id="vo">
+                <a href="javascript:{$vo.cate_id};">{$vo.cate_name}</a>
+            </volist>
+        </div>
         <div class="sec-box">
             <h3>画室简介</h3>
             <p>这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know,这是一些虚拟的内容u know</p>
@@ -54,14 +60,11 @@
             <a href="javascript:;">这是一个链接</a>
         </div>
 
-        <div class="sec-box secbbside-box student class">
-            <h3>我的班级</h3>
-            <a href="javascript:;">周日下午一班</a>
-            <a href="javascript:;">周三下午二班</a>
-        </div>
+
     </div>
     <div class="grid_12 cont-box">
         <div class="sec-box secbb-box student homwork">
+            <h3>我的作业</h3>
             <volist name="hList" id="work">
             <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=User&a=homework&id={$work.id}"><span class="class">{$work.name}
             </span><span class="time">{$work.create_time|date='Y-m-d',###}</span>作业</a></p></div>
@@ -72,6 +75,7 @@
         </div>
 
         <div class="sec-box secbb-box student news">
+            <h3>我的消息</h3>
             <volist name="tList" id="notice">
             <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=Message&a=detail&mid={$notice.msg_id}">{$notice.title}</a></p></div>
                 </volist>
@@ -81,6 +85,7 @@
         </div>
 
         <div class="sec-box secbb-box student teacher photo">
+            <h3>班级相册</h3>
             <volist name="pList" key="i" id="vo">
             <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline"><div class="img-box"><img src="{$vo.file_path}" width="150px;" height="100px"></div></div>
             </volist>
