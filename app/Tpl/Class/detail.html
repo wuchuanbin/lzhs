@@ -44,10 +44,10 @@
     <div class="clear"></div>
     <div class="grid_4 sidebar-box">
         <div class="sec-box secbbside-box student class">
-            <h3>我的班级</h3>
-            <volist name="class" id="vo">
-                <a href="/index.php?m=Class&a=detail&id={$vo.cate_id}">{$vo.cate_name}</a>
-            </volist>
+            <h3>班级名称</h3>
+
+                <a href="/index.php?m=Class&a=detail&id={$info.cate_id}">{$info.cate_name}</a>
+
         </div>
         <div class="sec-box">
             <h3>画室简介</h3>
@@ -64,7 +64,7 @@
     </div>
     <div class="grid_12 cont-box">
         <div class="sec-box secbb-box student homwork">
-            <h3>我的作业</h3>
+            <h3>本班作业</h3>
             <volist name="hList" id="work">
             <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=User&a=homework&id={$work.id}"><span class="class">{$work.name}
             </span><span class="time">{$work.create_time|date='Y-m-d',###}</span>作业</a></p></div>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="sec-box secbb-box student news">
-            <h3>我的消息</h3>
+            <h3>本班消息</h3>
             <volist name="tList" id="notice">
             <div class="entry-box hover"><p class="pointer inline"><a href="/index.php?m=Message&a=detail&mid={$notice.msg_id}">{$notice.title}</a></p></div>
                 </volist>

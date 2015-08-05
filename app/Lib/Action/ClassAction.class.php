@@ -163,7 +163,65 @@
 			$this->ajaxReturn('', '删除失败', -1);
 		}
 
-	}	
+	}
+
+     /**
+      * 班级首页
+      */
+     public function detail(){
+         $id = intval($_GET['id']);
+//         echo $id;
+         if($id>0){
+
+
+             $obj = M('class_msg_cate');
+             $where = "cate_id = ".$id;
+             $info = $obj->where($where)->find();
+//             print_r($info);
+             $this->assign('info',$info);
+
+             //画室的相册
+
+             //画室的消息
+
+//echo 3;
+             //班级作业
+             $h_mob = M('homework');
+             $hList = $h_mob->where("class_id in (".$id.")")->select();
+             $this->assign('hList',$hList);
+
+             //班级通知
+//             echo 2;
+
+             $t_mod = M('class_msg');
+             $tList = $t_mod->field("title,msg_id")->where("cate_id =".$id)->select();
+//             echo $t_mod->getLastSql();
+             $this->assign('tList',$tList);
+
+//             print_r($tList);
+
+//             $this->display('Class:detail');
+
+             //班级相册
+
+             $f_mod = M('uploaded_file');
+             $pList = $f_mod->where("belong ={$id} and item_id = 1")->select();
+             $this->assign('pList',$pList);
+
+//             print_r($pList);
+
+//             echo $id;die;
+
+             $this->display('Class:detail');
+
+
+
+
+//             print_r($info);
+         } else {
+             $this->error('班级错误！');
+         }
+     }
 
 }
 ?>
