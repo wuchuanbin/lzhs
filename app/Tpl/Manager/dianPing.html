@@ -12,7 +12,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>#</th>
+                <th>头像</th>
                 <th>名称</th>
                 <th>评语</th>
 
@@ -27,7 +27,7 @@
 
 			<volist name='list' id='data' key='i'>
             <tr id="class_{$data.file_id}">
-                <td>{$data.file_id}</td>
+                <td>{$data.file_id}<img src="/app/Uploads/avatar/{$data.file_name}.jpg"></td>
                 <td><input type="text" name="{$data.file_id}[file_name]" value="{$data.file_name}"></td>
 
                 <td><input type="text" name="{$data.file_id}[remark]" value="{$data.remark}"></td>

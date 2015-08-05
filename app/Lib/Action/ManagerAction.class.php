@@ -385,7 +385,7 @@ class ManagerAction extends Action {
                 $data['uid'] = I('session.uid', '', null);
                 $data['file_type'] = $val['extension'];
                 $data['file_size'] = $val['size'];
-                $data['file_name'] = $val['name'];
+                $data['file_name'] = strstr($val['name'],'.',true);
                 //$tmp = explode($str, $val['savepath']);
                 $data['file_path'] = $val['savepath'] . $val['savename'];    // 1 上线 2 下线
                 $data['add_time'] = time();
