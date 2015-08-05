@@ -186,9 +186,9 @@
 
 //echo 3;
              //班级作业
-             $h_mob = M('homework');
-             $hList = $h_mob->where("class_id in (".$id.")")->select();
-             $this->assign('hList',$hList);
+//             $h_mob = M('homework');
+//             $hList = $h_mob->where("class_id in (".$id.")")->select();
+//             $this->assign('hList',$hList);
 
              //班级通知
 //             echo 2;
