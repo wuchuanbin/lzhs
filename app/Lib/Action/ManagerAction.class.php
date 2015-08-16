@@ -287,6 +287,31 @@ $obj2 = M('uploaded_file');
         $this->display('Manager:HomeWorkList');
     }
 
+	public function delWork() {
+		
+		$wid = isset($_REQUEST['wid']) ? intval($_REQUEST['wid'])     : NULL;
+
+		if(!$wid) {
+			$this->ajaxReturn('', '参数ID有误', -1);
+		}
+
+		$model = M('homework');
+
+		$condition = array();
+		$condition['id'] = array('eq', $wid);
+
+		$info = $model->where($condition)->find();
+
+		if(!$info) {
+			$this->ajaxReturn('', '参数ID有误', -1);
+		}
+
+
+		$ret = $model->where($condition)->delete();
+
+		$this->ajaxReturn('', '删除成功', 1);
+	}
+
     function dianPing(){
         $order = empty($_REQUEST['order']) ? 'file_name' : htmlspecialchars($_REQUEST['order']);
         $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);

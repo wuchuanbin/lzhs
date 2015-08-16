@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             <volist name='list' id='data' key='i'>
-            <tr>
+            <tr id='w_{$data.id}'>
 
                 <td>{$data.id}</td>
                 <td>{$data.name}</td>
@@ -41,7 +41,8 @@
                 <td>
                     <a href="/index.php?m=Manager&a=dianPing&id={$data.id}">点评作业</a>
                     <a href="/index.php?m=Manager&a=workExec&id={$data.id}"><i class="icon-pencil"></i></a>
-                    <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>
+                    <a href="javascript:;" onclick="delwork({$data.id})"><i class="icon-remove"></i></a>
+					<input type='hidden' id='delurl' value="<?php echo U('manager/delWork'); ?>" />
                 </td>
             </tr>
             </volist>
@@ -75,7 +76,29 @@
     </div>
 
 </div>
-
+<script>
+	function delwork(wid) {
+		
+		if(wid) {
+			var url = $('#delurl').val();
+			$.ajax({
+				url:url,
+				type:'post',
+				dataType:'json',
+				data:{
+					'wid':wid,
+				},
+				success:function(msg){
+					if(msg.status == 1) {
+						$('#w_' + wid).remove();
+					}
+					alert(msg.info);
+					return false;
+				}
+			});
+		}
+	}
+</script>
 
 
 <include file="Common:Manager_footer" />
