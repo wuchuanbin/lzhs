@@ -11,6 +11,13 @@ class LoginAction extends Action{
     //Login
     public function login(){
         //username password check
+		if(!$_POST['user_name']) {
+			$this->success('请输入用户名！');
+		}
+		if(!$_POST['password']) {
+			$this->success('请输入密码！');
+		}
+
         $where['user_name'] = $_POST['user_name'];
         $where['password'] = $_POST['password'];
 
@@ -22,7 +29,7 @@ class LoginAction extends Action{
             $this->_doLogin($info['uid'],$info);
             $this->success('登录成功！');
         } else {
-            $this->error('登录失败');
+            $this->success('用户名或密码错误');
         }
     }
 
