@@ -3,7 +3,7 @@
 class UserAction extends Action {
     public function index(){
 
-//        print_r($_SESSION);
+//        print_r($_SESSION);die;
 
         if($_SESSION['userInfo']['is_admin']==2){
             header('Location:/index.php?m=User&a=teacher');
@@ -23,8 +23,9 @@ class UserAction extends Action {
 //echo 1;
         //班级作业
         $h_mob = M('homework');
-        $hList = $h_mob->where("class_id in (".$user['class_id1'].','.$user['class_id2'].")")->select();
-        $this->assign('hList',$hList);
+
+//        $hList = $h_mob->where("class_id in (".$user['class_id1'].','.$user['class_id2'].")")->select();
+//        $this->assign('hList',$hList);
 //echo 2;
 
         //班级通知
@@ -39,6 +40,23 @@ class UserAction extends Action {
         $f_mod = M('uploaded_file');
         $pList = $f_mod->where("belong in (".$user['class_id1'].','.$user['class_id2'].") and item_id = 1")->select();
         $this->assign('pList',$pList);
+
+        $homelist = $f_mod->where("file_name = '".$_SESSION['userInfo']['uid']."'")->group('belong')->select();
+        if(is_array($homelist)){
+            foreach($homelist as $v){
+
+                $hList[] = $h_mob->where("id = '".$v['belong']."'")->find();
+            }
+        } else {
+            $hList = array();
+        }
+
+
+        $this->assign('hList',$hList);
+
+
+
+
 //echo 4;
         //班级作业图片
 //var_dump($hList);
@@ -88,7 +106,7 @@ class UserAction extends Action {
         }
         if($user['class_id2']>0){
             $c1 = $s_mod->where("class_id1 = '{$user['class_id2']}' or class_id2 = '{$user['class_id2']}'")->select();
-            $this->assign('c1',$c1);
+            $this->assign('c2',$c1);
         }
 
 //echo 1;
