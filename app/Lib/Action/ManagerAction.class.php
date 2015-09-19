@@ -334,6 +334,12 @@ $obj2 = M('uploaded_file');
         $list = $obj->where($where)->order($order . ' desc')->limit($page->firstRow . ',' . $page->listRows)->select();
 //        echo $obj->getLastSql();
 //print_r($list);
+        $u_mod = M('users');
+        foreach($list as $key=>$value){
+            $name = $u_mod->field('user_name')->where("uid = '".$value['file_name']."'")->find();
+            $list[$key]['user_name'] = $name['user_name'];
+        }
+//        print_r($list);
 
         //获取上传了作业的总数
         $this->assign('count',$count);

@@ -19,6 +19,7 @@
             <tr>
                 <th>头像</th>
                 <th>学号</th>
+                <th>姓名</th>
                 <th>评语</th>
 
                 <th>图片</th>
@@ -34,6 +35,7 @@
             <tr id="class_{$data.file_id}">
                 <td><img src="/app/Uploads/avatar/{$data.file_name}.jpg" width="150" height="180"></td>
                 <td><input type="hidden" name="{$data.file_id}[file_name]" value="{$data.file_name}">{$data.file_name}</td>
+                <td>{$data.user_name}</td>
 
                 <td><input type="text" name="{$data.file_id}[remark]" value="{$data.remark}"></td>
                 <td><img src="{$data.file_path}" width='350' height='200'/></td>

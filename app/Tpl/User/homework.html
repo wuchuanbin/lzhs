@@ -60,15 +60,15 @@
         &nbsp;&nbsp;&nbsp;&nbsp;作业名称：{$homework.name}  创建时间：{$homework.create_time|date='Y-m-d H:i:s',###}
         <div class="sec-box secbb-box student teacher photo">
             <volist name="list" key="i" id="vo">
-                <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline">
-                    <div class="img-box">
-                        <img src="{$vo.file_path}" width="150px;" height="100px">
+                <div class="">
+                    <div >
+                        <img src="http://www.txlz.cc/{$vo.file_path}" width="700px" height="auto">
                     </div>
                     <p style="font-size: 8px;padding: 0;padding-bottom: 10px;margin: 0;line-height: 10px;">评语：{$vo.remark}</p>
                 </div>
             </volist>
 
-            <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
+
             <div class="clear"></div>
         </div>
     </div>
