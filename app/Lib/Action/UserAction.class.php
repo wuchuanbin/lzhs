@@ -20,7 +20,7 @@ class UserAction extends Action {
 //        print_r($class);
         $this->assign('class',$class);
 
-//echo 1;
+// echo 1;
         //班级作业
         $h_mob = M('homework');
 
@@ -41,6 +41,7 @@ class UserAction extends Action {
         $pList = $f_mod->where("belong in (".$user['class_id1'].','.$user['class_id2'].") and item_id = 1")->select();
         $this->assign('pList',$pList);
 
+   
         $homelist = $f_mod->where("file_name = '".$_SESSION['userInfo']['uid']."'")->group('belong')->select();
         if(is_array($homelist)){
             foreach($homelist as $v){
@@ -57,12 +58,14 @@ class UserAction extends Action {
 
 
 
-//echo 4;
+// echo 4;
         //班级作业图片
 //var_dump($hList);
 //        $f_mod = M('uploaded_file');
         if(empty($hList[1]['id'])) $hList[1]['id'] = 0;
+        if(empty($hList[0]['id'])) $hList[0]['id'] = 0;
         $pList2 = $f_mod->where("belong in (".$hList[0]['id'].','.$hList[1]['id'].") and item_id = 2")->select();
+        // echo $f_mod->getLastSql();
 //        echo 44;
         $this->assign('pList2',$pList2);
 //echo 44;
