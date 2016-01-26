@@ -152,6 +152,22 @@ class UserAction extends Action {
     }
 
     /**
+     * 班级的图片的大图
+     * 显示图片的名称和图片的内容
+     * 一张一个页面
+     */
+    public function viewPic(){
+        $id = intval($_GET['id']);
+        $info = M('uploaded_file')->where("file_id = ".$id)->find();
+//        echo $info['file_name'];
+        $info['file_name'] = strstr($info['file_name'], '.',true);
+        $this->assign('info',$info);
+
+//        print_r($info);
+        $this->display('viewPic');
+    }
+
+    /**
      * 作业详情
      */
     public function homework(){

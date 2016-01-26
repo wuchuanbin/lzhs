@@ -44,13 +44,18 @@
         <div class="sec-box secbb-box student teacher photo">
             <h3>班级相册</h3>
             <volist name="pList" key="i" id="vo">
-            <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline"><div class="img-box"><img src="{$vo.file_path}" width="150px;" height="100px"></div></div>
+            <div class="entry-box <if condition='$i % 4 eq 0'> last </if> inline"><div class="img-box"><img src="{$vo.file_path}" width="150px;" height="100px" onclick="viewPic('{$vo.file_id}')"></div></div>
             </volist>
 
             <div class="btn-box btn-more-box"><a href="javacript:;" class="btn btn-more">更多</a></div>
             <div class="clear"></div>
         </div>
-
+<script>
+    function viewPic(id){
+//        console.log(id);
+        window.location.href='/index.php?m=User&a=viewPic&id='+id;
+    }
+</script>
         <!--<div class="sec-box secbb-box teacher class">-->
             <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->
             <!--<div class="entry-box hover"><p class="pointer inline">周五下午班</p></div>-->

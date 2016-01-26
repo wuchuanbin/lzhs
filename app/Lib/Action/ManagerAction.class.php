@@ -33,7 +33,7 @@ class ManagerAction extends Action {
 			$this->error();
 		}
 
-        $order = empty($_REQUEST['order']) ? 'reg_time' : htmlspecialchars($_REQUEST['order']);
+        $order = empty($_REQUEST['order']) ? 'uid' : htmlspecialchars($_REQUEST['order']);
         $type = empty($_REQUEST['type']) ? false : htmlspecialchars($_REQUEST['type']);
         $where = array();
         $where = '1 = 1';
@@ -114,6 +114,7 @@ class ManagerAction extends Action {
      * 学生信息导入
      */
     function importStudents(){
+        set_time_limit(0);
         if($_POST){
             import('ORG.Net.UploadFile');
             $upload = new UploadFile();// 实例化上传类
@@ -126,25 +127,82 @@ class ManagerAction extends Action {
                 $this->assign('message', $upload->getErrorMsg());
                 $this->error();
             } else {
+                // echo 1;die;
                 $info =  $upload->getUploadFileInfo();
                 $data = file($info[0]['savepath'].$info[0]['savename']);
-                $data = $this->arrayCoding($data,'gb2312','utf-8');
+                // $data = $this->arrayCoding($data,'gb2312','utf-8');
                 unset($data[0]);
                 $dtime = time();
                 $obj = M('users');
                 $i=0;
-                foreach($data as $v){
-                    $s = explode(',',$v);
-                    if($s[0]>0){
-                        $uid = $s[0];
-                    } else {
-                        $uid = 'NULL';
-                    }
-                    $sql = "insert into users (`uid`,`user_name`,`email`,`password`,`is_admin`,`class_id1`,`class_id2`,`status`,`reg_time`)";
-                    $sql .=" VALUES ('{$uid}','{$s[2]}','{$s[1]}','{$s[3]}','{$s[4]}','{$s[5]}','{$s[6]}',1,{$dtime})";
-                    $obj->query($sql);
-                    unset($sql);
+                // echo count($data);
+                // print_r($data);die;
+                foreach($data as $key=> $v){
+                    // echo $v.'<br>';
+                    // if(strlen($v)>0){
+                        $s = explode(',',$v);
+                        
+                        // $t[$i]['uid'] = $s[0];
+                        // $t[$i]['user_name'] = empty(iconv('gb2312','utf-8',$s[2])) ? '空的' : iconv('gb2312','utf-8',$s[2]);
+                        // $t[$i]['email'] = $s[1];
+                        // $t[$i]['password'] = $s[3];
+                        // $t[$i]['is_admin'] = $s[4];
+                        // $t[$i]['class_id1'] = $s[5];
+                        // $t[$i]['class_id2'] = intval($s[6]);
+                        // $t[$i]['status'] = 1;
+                        // $t[$i]['reg_time'] = $dtime;
+                        
+                        // // echo $t[$i]['uid'].'---'.$t[$i]['user_name'].'<br>';
+                        // $i++;
+
+
+                        $kj['uid'] = $s[0];
+
+
+
+                        $name = iconv('gb2312','utf-8',$s[2]);
+                        if(empty($name)){
+                            $name = '空的'.rand(1,999999);
+                        }
+                        $kj['user_name'] = $name;
+                        $kj['email'] = $s[1];
+                        $kj['password'] = $s[3];
+                        $kj['is_admin'] = $s[4];
+                        $kj['class_id1'] = $s[5];
+                        $kj['class_id2'] = intval($s[6]);
+                        $kj['status'] = 1;
+                        $kj['reg_time'] = $dtime;
+                        // $obj->create($kj);
+                        $obj->add($kj);
+                        // echo $obj->getLastSql().'<br>';
+
+
+
+                    // }
+                    
+                    // $
+                    // if($s[0]>0){
+                    //     $uid = $s[0];
+                    // } else {
+                    //     $uid = '';
+                    // }
+                    // echo $uid.'<br>';
+                    // $sql = "insert into users (`uid`,`user_name`,`email`,`password`,`is_admin`,`class_id1`,`class_id2`,`status`,`reg_time`)";
+                    // $sql .=" VALUES ('{$uid}','{$s[2]}','{$s[1]}','{$s[3]}','{$s[4]}','{$s[5]}','{$s[6]}',1,{$dtime})";
+                    // // echo $sql;die;
+                    // $obj->query($sql);
+                    // unset($sql);
                 }
+                // die;
+                // echo count($t);die;
+                // $obj->create($t);
+                // echo '<pre>';
+                // print_r($t);die;
+                // $obj->addAll($kj);
+
+                // echo $obj->getLastSql();
+                // die;
+                // print_r($t);die;
                 $this->success('ok!');
             }
         } else {
@@ -429,6 +487,27 @@ $obj2 = M('uploaded_file');
             $this->display('UpWork');
         } else {
 
+            $u_mod = M('users');
+            $str = '';
+            foreach($_FILES['photo']['name'] as $key=>$val){
+//                print_r($val);
+                $id1 = pathinfo($val);
+                $id =  intval($id1['filename']);
+                //chaxun count
+                $c = $u_mod->where('uid = '.$id)->count();
+                if($c<=0){
+                    $str .= $id1['filename'].' 对应的学生不存在！请核对后重新上传！'."\n";
+                }
+
+
+            }
+//            echo $str;die;
+            if(strlen($str)>0){
+                echo "<script>alert(decodeURI('".urlencode($str)."'));window.location.href=document.referrer</script>";
+
+                die;
+            }
+
             import('ORG.Net.UploadFile');
 
             $upload = new UploadFile();// 实例化上传类
@@ -498,5 +577,109 @@ $obj2 = M('uploaded_file');
             }
     }
 
+
+
+    /**
+     * 遍历文件夹
+     */
+    public function listDir($dir)
+    {
+        $dir .= substr($dir, -1) == '/' ? '' : '/';
+        $dirInfo = array();
+        foreach (glob($dir . '*') as $v) {
+            $dirInfo[] = $v;
+            if (is_dir($v)) {
+                $dirInfo = array_merge($dirInfo, $this->listDir($v));
+            }
+        }
+    }
+
+    /**
+     * 首页的作品列表的管理页面
+     */
+
+    public function indexPic(){
+        if (!$_POST) {
+            $url = $_SERVER['DOCUMENT_ROOT'].'/app/Uploads/indexPic/';
+            $info = glob($url.'*');
+            $r = array();
+            foreach($info as $v){
+
+                $tmp = pathinfo($v);
+
+                $r[] = '/app/Uploads/indexPic/'.$tmp['basename'];
+            }
+//            print_r($r);
+            $this->assign('list',$r);
+//
+            $this->display('indexPic');
+        } else {
+            import('ORG.Net.UploadFile');
+            $upload = new UploadFile();// 实例化上传类
+            $upload->maxSize = 2000000;// 上传大小2M
+            $upload->allowExts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            mkdir("./app/Uploads/indexPic/", 0777, true);
+            $upload->savePath = "./app/Uploads/indexPic/";
+            if (!$upload->upload()) {
+                $this->assign('title', '上传失败');
+                $this->assign('message', $upload->getErrorMsg());
+                $this->error();
+            } else {
+                $upload->getUploadFileInfo();
+            }
+            $this->assign('title', '上传成功');
+            $this->assign('jumpUrl', U('Manager/indexPic'));
+            $this->success();
+        }
+    }
+
+    /**
+     * 首页的画室环境页面
+     */
+    public function indexRoom(){
+        if (!$_POST) {
+            $url = $_SERVER['DOCUMENT_ROOT'].'/app/Uploads/indexRoom/';
+            $info = glob($url.'*');
+            $r = array();
+            foreach($info as $v){
+
+                $tmp = pathinfo($v);
+
+                $r[] = '/app/Uploads/indexRoom/'.$tmp['basename'];
+            }
+//            print_r($r);
+            $this->assign('list',$r);
+//
+            $this->display('indexRoom');
+        } else {
+            import('ORG.Net.UploadFile');
+            $upload = new UploadFile();// 实例化上传类
+            $upload->maxSize = 2000000;// 上传大小2M
+            $upload->allowExts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            mkdir("./app/Uploads/indexRoom/", 0777, true);
+            $upload->savePath = "./app/Uploads/indexRoom/";
+            if (!$upload->upload()) {
+                $this->assign('title', '上传失败');
+                $this->assign('message', $upload->getErrorMsg());
+                $this->error();
+            } else {
+                $upload->getUploadFileInfo();
+            }
+            $this->assign('title', '上传成功');
+            $this->assign('jumpUrl', U('Manager/indexRoom'));
+            $this->success();
+        }
+    }
+
+    /**
+     * 删除图片
+     */
+    public function delThisPic(){
+        $url = $_SERVER['DOCUMENT_ROOT'].trim($_POST['url']);
+//        echo $url;
+        @unlink($url);
+        echo 1;
+
+    }
 
 }

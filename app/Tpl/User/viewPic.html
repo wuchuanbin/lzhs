@@ -12,24 +12,9 @@
         </div>
     </div>
     <div class="grid_12 cont-box content" style="font-size:20px;">
-        <h1>作业详情</h1>
-        &nbsp;&nbsp;&nbsp;&nbsp;作业名称：{$homework.name}  创建时间：{$homework.create_time|date='Y-m-d H:i:s',###}
-        <div class="sec-box secbb-box student teacher photo">
-            <volist name="list" key="i" id="vo">
-                <div class="">
-                    <div >
-                        <img src="http://www.txlz.cc/{$vo.file_path}" width="700px" height="auto">
-                    </div>
-                    <p style="font-size: 8px;padding: 0;padding-bottom: 10px;margin: 0;line-height: 10px;">评语：{$vo.remark}</p>
-                </div>
-            </volist>
-
-
-            <div class="clear"></div>
-        </div>
+        <h1>{$info.file_name}</h1>
+        <img src="{$info.file_path}">
     </div>
-
-
 </div>
 
 <div class="bg"></div>

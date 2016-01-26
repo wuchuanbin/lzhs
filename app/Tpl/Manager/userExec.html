@@ -62,16 +62,16 @@
             </tr>
             <tr>
                 <td>权限：</td>
-                <td><input type='radio' name="is_admin" value="1"  />管理员
-                    <input type='radio' name="is_admin" value="2" />老师
-                    <input type='radio' name="is_admin" value="0" />学生</td>
+                <td><input type='radio' name="is_admin" value="1" <if condition="$info.is_admin eq 1">checked</if> />管理员
+                    <input type='radio' name="is_admin" value="2"  <if condition="$info.is_admin eq 2">checked</if> />老师
+                    <input type='radio' name="is_admin" value="0"  <if condition="$info.is_admin eq 0">checked</if> />学生</td>
             </tr>
             <tr>
                 <td>班级一：</td>
                 <td><select name="class_id1">
                     <option value="">--请选择--</option>
                     <volist name='cate_list' id='cate'>
-                        <option value="{$cate.cate_id}">{$cate.cate_name}</option>
+                        <option value="{$cate.cate_id}" <if condition="$cate.cate_id eq $info['class_id1']"> selected = "selected" </if>>{$cate.cate_name}</option>
                     </volist>
                 </select>
                 </td>
@@ -81,7 +81,7 @@
                 <td><select name="class_id2">
                     <option value="">--请选择--</option>
                     <volist name='cate_list' id='cate'>
-                        <option value="{$cate.cate_id}">{$cate.cate_name}</option>
+                        <option value="{$cate.cate_id}" <if condition="$cate.cate_id eq $info['class_id2']"> selected = "selected" </if>>{$cate.cate_name}</option>
                     </volist>
                 </select>
                 </td>
